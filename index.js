@@ -2,6 +2,7 @@ console.log('Arber is runing ...');
 DEBUG = true;
 
 var async = require('async');
+var bit2c = require('bit2c');
 
 
 // var bit_z_com = require('./exchanges/bit_z_com');
@@ -43,17 +44,17 @@ async.parallel([
 
       },
       function(callback) {
-        var bit2c = require('bit2c');
+
         bit2c.getTicker('BtgNis', function(error, ticker) {
           console.log('-------------------------------------------');
-          console.log('-               BT2C      - Btg           -');
+          console.log('-               BT2C - Btg                -');
           console.log('-------------------------------------------');
-          console.log(ticker);
-          console.log('');
+       //   console.log(ticker);
+       //   console.log('');
           //  return ticker;
           //   ticker.ll ;
           // console.log(' buy BTG price in nis:' , ticker.h );
-          console.log(' buy BTG price in nis - after fee :' , ticker.h * 0.995   );
+        //  console.log(' buy BTG price in nis - after fee :' , ticker.h * 0.995   );
           callback(null,ticker);
           /*  bit2c.getTicker('BtcNis', function(error, bitcoin) {
               console.log(bitcoin);
@@ -73,11 +74,24 @@ async.parallel([
             });*/
 
         });
+      },
+      function(callback) {
+        bit2c.getTicker('BtcNis', function(error, ticker) {
+          callback(null,ticker);
+        });
       }
     ],
 // optional callback
     function(err, results) {
       // the results array will equal ['one','two'] even though
       // the second function had a shorter timeout.
-      DEBUG && console.log('results', results);
+   //   DEBUG && console.log('results', results);
+      var bit_z_com = results[0];
+      DEBUG && console.log('bit_z_com: ', bit_z_com);
+      var bit2c_co_il_BTG_NIS = results[1];
+      DEBUG && console.log('bit2c_co_il_BTG_NIS: ', bit2c_co_il_BTG_NIS);
+
+      var bit2c_co_il_BTC_NIS = results[2];
+      DEBUG && console.log('bit2c_co_il_BTC_NIS: ', bit2c_co_il_BTC_NIS);
+
     });
