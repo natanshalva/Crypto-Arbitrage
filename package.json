@@ -3,6 +3,8 @@
   "version": "0.0.1",
   "description": "my first socket.io app",
   "dependencies": {
+    "async": "^2.6.0",
+    "async-p": "^1.1.0",
     "bit2c": "0.0.6",
     "express": "^4.15.2",
     "request": "^2.83.0",
