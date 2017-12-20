@@ -62,6 +62,8 @@ async.parallel([
       var bit2c_co_il_BTC_NIS = results[2];
       DEBUG && console.log('bit2c_co_il_BTC_NIS: ', bit2c_co_il_BTC_NIS);
 
+      //------------------------------------------------------------
+      //------------------------------------------------------------
       function execute_bi2c_sort(bit2c_co_il_BTC_NIS,bit2c_co_il_BTG_NIS,coin) {
 
         DEBUG && console.log('sort:' ,coin);
