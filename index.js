@@ -1,5 +1,6 @@
+function doStuff() {
 console.log('Arber is runing ...');
-DEBUG = true;
+DEBUG = false;
 
 var async = require('async');
 var bit2c = require('bit2c');
@@ -53,14 +54,15 @@ async.parallel([
       // the results array will equal ['one','two'] even though
       // the second function had a shorter timeout.
    //   DEBUG && console.log('results', results);
-      var bit_z_com_BTC_BTG = results[0];
-      DEBUG && console.log('bit_z_com_BTC_BTG: ', bit_z_com_BTC_BTG);
+
+      var bit_z_com_BTG_BTC = results[0];
+      DEBUG && console.log('bit_z_com_BTC_BTG: ', bit_z_com_BTG_BTC);
 
       var bit2c_co_il_BTG_NIS = results[1];
       DEBUG && console.log('bit2c_co_il_BTG_NIS: ', bit2c_co_il_BTG_NIS);
 
-      var bit2c_co_il_BTC_NIS = results[2];
-      DEBUG && console.log('bit2c_co_il_BTC_NIS: ', bit2c_co_il_BTC_NIS);
+      var bit2c_co_il_NIS_BTC = results[2];
+      DEBUG && console.log('bit2c_co_il_NIS_BTC: ', bit2c_co_il_NIS_BTC);
 
       //------------------------------------------------------------
       //------------------------------------------------------------
@@ -89,14 +91,14 @@ async.parallel([
         return bi2c_sorted_in_function;
       }
 
-      var bi2c_sorted  =  execute_bi2c_sort(bit2c_co_il_BTC_NIS, bit2c_co_il_BTG_NIS , 'BTG');
+      var bi2c_sorted  =  execute_bi2c_sort(bit2c_co_il_NIS_BTC, bit2c_co_il_BTG_NIS , 'BTG');
 
 
       // bit-z.com
-      u_can_sell_BTG_in_Bit_z_com = (bit_z_com_BTC_BTG.data.buy * 0.999)  ;
+      u_can_sell_BTG_in_Bit_z_com = (bit_z_com_BTG_BTC.data.buy * 0.999)  ;
       DEBUG && console.log( 'u_can_sell_BTG_in_Bit_z_com' ,u_can_sell_BTG_in_Bit_z_com);
 
-      u_can_buy_BTG_in_Bit_z_com = (bit_z_com_BTC_BTG.data.sell * 0.999)  ;
+      u_can_buy_BTG_in_Bit_z_com = (bit_z_com_BTG_BTC.data.sell * 0.999)  ;
       DEBUG && console.log( 'u_can_buy_BTG_in_Bit_z_com' ,u_can_buy_BTG_in_Bit_z_com);
 
       // finely calculation
@@ -110,7 +112,9 @@ async.parallel([
       //------------------------------------------------------------------------------------
       function print_in_NIS(value, buy_bitcoin_in_NIS ,text ) {
         var read_number_in_nis = parseFloat(value *  buy_bitcoin_in_NIS ).toFixed(2)  ;
+        console.log('--------------------------------------------------------');
         console.log( text ,  read_number_in_nis );
+        console.log('--------------------------------------------------------');
       }
 
      print_in_NIS( buy__BTG__in_Bit_z_com__sell_in_Bi2c , bi2c_sorted.haighest_buy_order_BTG__in_bi2c ,
@@ -120,3 +124,10 @@ async.parallel([
           'buy__BTG__in_BI2C_sell_in_BIT_Z_COM - in NIS: ' );
 
     });
+};
+
+function run() {
+  setInterval(doStuff, 10000);
+};
+
+run();
