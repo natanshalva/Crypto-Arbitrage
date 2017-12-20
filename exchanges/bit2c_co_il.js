@@ -39,9 +39,9 @@ bit2c.getTicker('BtgNis', function(error, ticker) {
 
     BUY__BTG__IN_BIT_Z_COM____SELL__BTG__IN_BI2C  = BUY__BTG__IN_BIT_Z_COM  - SELL__BTG__IN_BI2C;
 
-    BUY__BTG__IN_BI2C__SELL__BTG__IN_BIT_Z_COM = BUY__BTG__IN_BI2C - SELL__BTG__IN_BIT_Z_COM ;
+    buy__BTG__in_BI2C__sell__BTG__in_BIT_Z_COM = BUY__BTG__IN_BI2C - SELL__BTG__IN_BIT_Z_COM ;
 
-    var read_number_in_nis = parseFloat(BUY__BTG__IN_BI2C__SELL__BTG__IN_BIT_Z_COM * bitcoin.h).toFixed(2)  ;
+    var read_number_in_nis = parseFloat(buy__BTG__in_BI2C__sell__BTG__in_BIT_Z_COM * bitcoin.h).toFixed(2)  ;
     console.log( 'buy in bi2c and sell in bit-z.com - in NIS' ,  read_number_in_nis );
 
     console.log( 'buy in bit-z.com and sell in bit-z.com - in NIS' , BUY__BTG__IN_BIT_Z_COM____SELL__BTG__IN_BI2C * bitcoin.h);

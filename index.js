@@ -20,11 +20,6 @@ async.parallel([
 
         var rp = require('request-promise');
 
-        console.log('-------------------------------------------');
-        console.log('-               bit-z.com                 -');
-        console.log('-               btg_btc                   -');
-        console.log('-------------------------------------------');
-
         var options = {
           uri: 'https://www.bit-z.com/api_v1/ticker?coin=btg_btc',
           qs: {
@@ -41,38 +36,10 @@ async.parallel([
         }).catch(function(err) {
           // API call failed...
         });
-
       },
       function(callback) {
-
         bit2c.getTicker('BtgNis', function(error, ticker) {
-          console.log('-------------------------------------------');
-          console.log('-               BT2C - Btg                -');
-          console.log('-------------------------------------------');
-       //   console.log(ticker);
-       //   console.log('');
-          //  return ticker;
-          //   ticker.ll ;
-          // console.log(' buy BTG price in nis:' , ticker.h );
-        //  console.log(' buy BTG price in nis - after fee :' , ticker.h * 0.995   );
           callback(null,ticker);
-          /*  bit2c.getTicker('BtcNis', function(error, bitcoin) {
-              console.log(bitcoin);
-              BUY__BTG__IN_BI2C = ( ticker.l * 0.995)  /  bitcoin.h;
-              console.log( 'BUY__BTG__IN_BI2C',BUY__BTG__IN_BI2C ) ;
-              SELL__BTG__IN_BI2C = ( ticker.h * 0.995)  /  bitcoin.h;
-              console.log( 'SELL__BTG__IN_BI2C',SELL__BTG__IN_BI2C ) ;
-
-              BUY__BTG__IN_BIT_Z_COM____SELL__BTG__IN_BI2C  = BUY__BTG__IN_BIT_Z_COM  - SELL__BTG__IN_BI2C;
-
-              BUY__BTG__IN_BI2C__SELL__BTG__IN_BIT_Z_COM = BUY__BTG__IN_BI2C - SELL__BTG__IN_BIT_Z_COM ;
-
-              var read_number_in_nis = parseFloat(BUY__BTG__IN_BI2C__SELL__BTG__IN_BIT_Z_COM * bitcoin.h).toFixed(2)  ;
-              console.log( 'buy in bi2c and sell in bit-z.com - in NIS' ,  read_number_in_nis );
-
-              console.log( 'buy in bit-z.com and sell in bit-z.com - in NIS' , BUY__BTG__IN_BIT_Z_COM____SELL__BTG__IN_BI2C * bitcoin.h);
-            });*/
-
         });
       },
       function(callback) {
@@ -86,12 +53,68 @@ async.parallel([
       // the results array will equal ['one','two'] even though
       // the second function had a shorter timeout.
    //   DEBUG && console.log('results', results);
-      var bit_z_com = results[0];
-      DEBUG && console.log('bit_z_com: ', bit_z_com);
+      var bit_z_com_BTC_BTG = results[0];
+      DEBUG && console.log('bit_z_com_BTC_BTG: ', bit_z_com_BTC_BTG);
+
       var bit2c_co_il_BTG_NIS = results[1];
       DEBUG && console.log('bit2c_co_il_BTG_NIS: ', bit2c_co_il_BTG_NIS);
 
       var bit2c_co_il_BTC_NIS = results[2];
       DEBUG && console.log('bit2c_co_il_BTC_NIS: ', bit2c_co_il_BTC_NIS);
+
+      function execute_bi2c_sort(bit2c_co_il_BTC_NIS,bit2c_co_il_BTG_NIS,coin) {
+
+        DEBUG && console.log('sort:' ,coin);
+
+        var bi2c_sorted_in_function = {};
+        bi2c_sorted_in_function.lowest_sell_order_BTG__in_bi2c   = bit2c_co_il_BTG_NIS.l ;
+        bi2c_sorted_in_function.haighest_buy_order_BTG__in_bi2c   = bit2c_co_il_BTG_NIS.h ;
+
+        // SELL BTC - to NIS
+        // BUY BTG - with nis
+
+        function calculated_the_commissions_in_BI2C( coin_value, fee, second_coin_value ) {
+          return  ((coin_value*fee) / second_coin_value) ;
+        }
+
+        bi2c_sorted_in_function.u_can_buy_BTG_in_BI2C_for_BTC = calculated_the_commissions_in_BI2C( bi2c_sorted_in_function.lowest_sell_order_BTG__in_bi2c, 0.995,bit2c_co_il_BTC_NIS.h);
+      //  DEBUG && console.log('u_can_buy_BTG_in_BI2C_for_BTC',bi2c_sorted.u_can_buy_BTG_in_BI2C_for_BTC);
+
+        bi2c_sorted_in_function.u_can_sell_BTG__in_bi2c_for_BTC  =  calculated_the_commissions_in_BI2C( bi2c_sorted_in_function.haighest_buy_order_BTG__in_bi2c , 0.995, bit2c_co_il_BTC_NIS.h );
+      //  console.log( 'u_can_sell_BTG__in_bi2c_for_BTC ',bi2c_sorted.u_can_sell_BTG__in_bi2c_for_BTC ) ;
+
+        DEBUG && console.log('bi2c_sorted_in_function',bi2c_sorted_in_function);
+        return bi2c_sorted_in_function;
+      }
+
+      var bi2c_sorted  =  execute_bi2c_sort(bit2c_co_il_BTC_NIS, bit2c_co_il_BTG_NIS , 'BTG');
+
+
+      // bit-z.com
+      u_can_sell_BTG_in_Bit_z_com = (bit_z_com_BTC_BTG.data.buy * 0.999)  ;
+      DEBUG && console.log( 'u_can_sell_BTG_in_Bit_z_com' ,u_can_sell_BTG_in_Bit_z_com);
+
+      u_can_buy_BTG_in_Bit_z_com = (bit_z_com_BTC_BTG.data.sell * 0.999)  ;
+      DEBUG && console.log( 'u_can_buy_BTG_in_Bit_z_com' ,u_can_buy_BTG_in_Bit_z_com);
+
+      // finely calculation
+
+     var  buy__BTG__in_Bit_z_com__sell_in_Bi2c = bi2c_sorted.u_can_sell_BTG__in_bi2c_for_BTC  - u_can_buy_BTG_in_Bit_z_com;
+    DEBUG && console.log('buy__BTG__in_Bit_z_com__sell_in_Bi2c' , buy__BTG__in_Bit_z_com__sell_in_Bi2c ); 
+
+     var  buy__BTG__in_BI2C_sell_in_BIT_Z_COM = u_can_sell_BTG_in_Bit_z_com  -  bi2c_sorted.u_can_buy_BTG_in_BI2C_for_BTC;
+      DEBUG && console.log('buy__BTG__in_BI2C_sell_in_BIT_Z_COM', buy__BTG__in_BI2C_sell_in_BIT_Z_COM);
+     
+      //------------------------------------------------------------------------------------
+      function print_in_NIS(value, buy_bitcoin_in_NIS ,text ) {
+        var read_number_in_nis = parseFloat(value *  buy_bitcoin_in_NIS ).toFixed(2)  ;
+        console.log( text ,  read_number_in_nis );
+      }
+
+     print_in_NIS( buy__BTG__in_Bit_z_com__sell_in_Bi2c , bi2c_sorted.haighest_buy_order_BTG__in_bi2c ,
+          'buy__BTG__in_Bit_z_com__sell_in_Bi2c - in NIS: ' );
+
+      print_in_NIS( buy__BTG__in_BI2C_sell_in_BIT_Z_COM , bi2c_sorted.haighest_buy_order_BTG__in_bi2c ,
+          'buy__BTG__in_BI2C_sell_in_BIT_Z_COM - in NIS: ' );
 
     });
