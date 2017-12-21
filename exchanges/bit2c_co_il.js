@@ -55,10 +55,7 @@ bit2c.getTicker('BtgNis', function(error, ticker) {
 
 /*
 
-  credentials = {
-    key: '4176aad7-abca-4d1d-b8cc-3f0285860c15',
-    secret: '9DB3266F66425611A3A0BE622C07C1402D31753F7C5D27FCA2E5E30F4F7710FD'
-  };
+
 
 // getting your current balance
   bit2c.getBalance(credentials, function(error, balance) {
