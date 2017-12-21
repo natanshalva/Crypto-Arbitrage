@@ -1,4 +1,4 @@
-DEBUG = true;
+DEBUG = false;
 var take_timeout = 0;
 
 // function doStuff() {
@@ -26,6 +26,7 @@ async.parallel([
 
         var options = {
           uri: 'https://www.bit-z.com/api_v1/ticker?coin=btg_btc',
+          //uri: 'https://www.bit-z.com/api_v1/depth?coin=btg_btc',
           qs: {
             access_token: 'xxxxx xxxxx' // -> uri + '?access_token=xxxxx%20xxxxx'
           },
@@ -42,8 +43,8 @@ async.parallel([
         });
       },
       function(callback) {
-        bit2c.getTicker('BtgNis', function(error, ticker) {
-          callback(null,ticker);
+        bit2c.getOrderBook('BtgNis', function(error, getOrderBook) {
+          callback(null,getOrderBook);
         });
       },
       function(callback) {
@@ -56,27 +57,43 @@ async.parallel([
     function(err, results) {
       // the results array will equal ['one','two'] even though
       // the second function had a shorter timeout.
+
    //   DEBUG && console.log('results', results);
+
+
 
       var bit_z_com_BTG_BTC = results[0];
       DEBUG && console.log('bit_z_com_BTC_BTG: ', bit_z_com_BTG_BTC);
 
-      var bit2c_co_il_BTG_NIS = results[1];
-      DEBUG && console.log('bit2c_co_il_BTG_NIS: ', bit2c_co_il_BTG_NIS);
+      var bit2c_co_il_BTG_NIS_order_book = results[1];
+   //   DEBUG && console.log('bit2c_co_il_BTG_NIS_order_book: ', bit2c_co_il_BTG_NIS_order_book);
 
       var bit2c_co_il_NIS_BTC = results[2];
        console.log('bit2c_co_il_NIS_BTC: ', bit2c_co_il_NIS_BTC);
 
+
+      // start check with
+
+      //   run and check every asks -
+      try {
+      bit2c_co_il_BTG_NIS_order_book.asks.forEach(function(value,i){
+     //   DEBUG && console.log('are we ? what is i? ', i );
+      //  DEBUG && console.log('are we ? what is value? ', value );
+
+        if (i === 5) throw BreakException;
       //------------------------------------------------------------
+      //    Bi2c
       //------------------------------------------------------------
-      function execute_bi2c_sort(bit2c_co_il_BTC_NIS,bit2c_co_il_BTG_NIS,coin) {
+      function execute_bi2c_sort(bit2c_co_il_BTC_NIS, bit2c_co_il_BTG_NIS_order_book,coin,action_i) {
 
         DEBUG && console.log('sort:' ,coin);
+
+      //  DEBUG && console.log('bit2c_co_il_BTG_NIS_order_book', bit2c_co_il_BTG_NIS_order_book);
         // https://www.bit2c.co.il/home/api
 
         var bi2c_sorted_in_function = {};
-        bi2c_sorted_in_function.lowest_sell_order_BTG__in_bi2c   = bit2c_co_il_BTG_NIS.l ;
-        bi2c_sorted_in_function.haighest_buy_order_BTG__in_bi2c   = bit2c_co_il_BTG_NIS.h ;
+        bi2c_sorted_in_function.lowest_sell_order_BTG__in_bi2c   = bit2c_co_il_BTG_NIS_order_book.asks[action_i][0] ;
+        bi2c_sorted_in_function.haighest_buy_order_BTG__in_bi2c   = bit2c_co_il_BTG_NIS_order_book.bids[action_i][0] ;
 
         // SELL BTC - to NIS
         // BUY BTG - with nis
@@ -98,6 +115,7 @@ async.parallel([
             0.995, // 0.5%
             bit2c_co_il_BTC_NIS.h ,
             0.995 // 0.5%
+
         );
       //  console.log( 'u_can_sell_BTG__in_bi2c_for_BTC ',bi2c_sorted.u_can_sell_BTG__in_bi2c_for_BTC ) ;
 
@@ -105,7 +123,10 @@ async.parallel([
         return bi2c_sorted_in_function;
       }
 
-      var bi2c_sorted  =  execute_bi2c_sort(bit2c_co_il_NIS_BTC, bit2c_co_il_BTG_NIS , 'BTG');
+
+      DEBUG && console.log('start sort bit2c asks number:', i);
+      var bi2c_sorted  =  execute_bi2c_sort(bit2c_co_il_NIS_BTC, bit2c_co_il_BTG_NIS_order_book , 'BTG', i);
+
 
       // ********************************************************************************
       // bit-z.com
@@ -119,7 +140,6 @@ async.parallel([
       DEBUG && console.log( 'u_can_buy_BTG_in_Bit_z_com' ,u_can_buy_BTG_in_Bit_z_com);
 
       // finely calculation
-
      var  buy__BTG__in_Bit_z_com__sell_in_Bi2c = bi2c_sorted.u_can_sell_BTG__in_bi2c_for_BTC  - u_can_buy_BTG_in_Bit_z_com;
     DEBUG && console.log('buy__BTG__in_Bit_z_com__sell_in_Bi2c' , buy__BTG__in_Bit_z_com__sell_in_Bi2c ); 
 
@@ -127,20 +147,35 @@ async.parallel([
       DEBUG && console.log('buy__BTG__in_BI2C_sell_in_BIT_Z_COM', buy__BTG__in_BI2C_sell_in_BIT_Z_COM);
      
       //------------------------------------------------------------------------------------
-      function print_in_NIS(value, buy_bitcoin_in_NIS ,text ) {
-        var read_number_in_nis = parseFloat(value *  buy_bitcoin_in_NIS ).toFixed(2)  ;
+      function print_in_NIS(value, buy_bitcoin_in_NIS ,text , asks_recored) {
+        var read_number_in_nis = parseFloat((value * asks_recored ) * buy_bitcoin_in_NIS ).toFixed(2)  ;
         console.log('--------------------------------------------------------');
-        console.log( text ,  read_number_in_nis );
+        console.log( text + ': ('+asks_recored+')' ,  read_number_in_nis );
         console.log('--------------------------------------------------------');
       }
 
      print_in_NIS( buy__BTG__in_Bit_z_com__sell_in_Bi2c , bi2c_sorted.haighest_buy_order_BTG__in_bi2c ,
-          'buy__BTG__in_Bit_z_com__sell_in_Bi2c - in NIS: ' );
+          'buy__BTG__in_Bit_z_com__sell_in_Bi2c - in NIS: ', bit2c_co_il_BTG_NIS_order_book.asks[i][1]  );
 
       print_in_NIS( buy__BTG__in_BI2C_sell_in_BIT_Z_COM , bi2c_sorted.haighest_buy_order_BTG__in_bi2c ,
-          'buy__BTG__in_BI2C_sell_in_BIT_Z_COM - in NIS: ' );
+          'buy__BTG__in_BI2C_sell_in_BIT_Z_COM - in NIS: ', bit2c_co_il_BTG_NIS_order_book.asks[i][1]  );
+
+
+      });
+      } catch (e) {
+        if (e !== BreakException) throw e;
+      }
 
     });
+
+
+
+
+
+
+
+
+
 // };
 
 // function run() {
