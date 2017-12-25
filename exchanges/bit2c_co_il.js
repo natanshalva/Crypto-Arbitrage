@@ -3,12 +3,11 @@
 var bit2c = require('bit2c');*/
 
   module.exports  =  function execute_bi2c_sort(
-                          USD_NIS,
                           bit2c_co_il_NIS_BTC,
                           bit2c_co_il_BTG_NIS_order_book,
                           coin,
                           action_i) {
-    DEBUG && console.log('in sort:'.info, coin);
+    DEBUG && console.log('in execute_bi2c_sort:'.info, coin);
 
     var bi2c_sort = {
       lowest_sell_BTG__in_NIS: null,

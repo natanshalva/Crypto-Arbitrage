@@ -18,6 +18,8 @@ colour.setTheme({
 var async = require('async');
 var bit2c = require('bit2c');
 
+console.log('Arber is runing ...'.info);
+
 async.parallel([
 
       function get__bit_z_com (callback) {
@@ -30,8 +32,8 @@ async.parallel([
         var rp = require('request-promise');
 
         var options = {
-          uri: 'https://www.bit-z.com/api_v1/ticker?coin=btg_btc',
-          //uri: 'https://www.bit-z.com/api_v1/depth?coin=btg_btc',
+        //  uri: 'https://www.bit-z.com/api_v1/ticker?coin=btg_btc',
+          uri: 'https://www.bit-z.com/api_v1/depth?coin=btg_btc',
           qs: {
             //   access_token: 'xxxxx xxxxx' // -> uri + '?access_token=xxxxx%20xxxxx'
           },
@@ -66,8 +68,8 @@ async.parallel([
       // the second function had a shorter timeout.
       //   DEBUG && console.log('results'.info, results);
 
-      var bit_z_com_BTG_BTC = results[0];
-      DEBUG && console.log('bit_z_com_BTC_BTG: '.info, bit_z_com_BTG_BTC);
+      var bit_z_com_BTG_BTC_depth = results[0];
+      DEBUG && console.log('bit_z_com_BTC_BTG: '.info, bit_z_com_BTG_BTC_depth);
 
       var bit2c_co_il_BTG_NIS_order_book = results[1];
       DEBUG && console.log('bit2c_co_il_BTG_NIS_order_book: ', bit2c_co_il_BTG_NIS_order_book);
@@ -81,7 +83,7 @@ async.parallel([
       var total_margin_in_BTC = 0;
 
 // function doStuff() {
-      console.log('Arber is runing ...'.info);
+
 
 // var async = require('async');
 //  bit2c = require('bit2c');
@@ -159,7 +161,7 @@ async.parallel([
 
       var orders_to_inspect = bit2c_co_il_BTG_NIS_order_book.asks;
 
-      var USD_NIS = 3.49;
+    //  var USD_NIS = 3.49;
 
 // start check with
 
@@ -193,32 +195,26 @@ async.parallel([
         //    Bi2c
         //------------------------------------------------------------
 
-        DEBUG && console.log('start sort bit2c asks number:'.info, i);
+        DEBUG && console.log('Start sort bit2c asks number:'.info, i);
 
-        var bi2c_sorted = require('./exchanges/bit2c_co_il.js')(USD_NIS,
-            bit2c_co_il_NIS_BTC, bit2c_co_il_BTG_NIS_order_book, 'BTG', i);
-
+        var bi2c_sorted = require('./exchanges/bit2c_co_il.js')(
+            bit2c_co_il_NIS_BTC, bit2c_co_il_BTG_NIS_order_book,
+            'BTG',
+            i );
 
         // ********************************************************************************
-        // bit-z.com
-        //  https://www.bit-z.com/about/fee
-        // https://www.bit-z.com/api.html
-        // the price - less the trade fee - and less Withdrawal fee
-        u_can_sell_BTG_in_Bit_z_com = (bit_z_com_BTG_BTC.data.buy * 0.999) * 0.995;
-        DEBUG && console.log('u_can_sell_BTG_in_Bit_z_com'.info,
-            u_can_sell_BTG_in_Bit_z_com);
-
-        u_can_buy_BTG_in_Bit_z_com = (bit_z_com_BTG_BTC.data.sell * 1.001) * 1.005;
-        DEBUG && console.log('u_can_buy_BTG_in_Bit_z_com'.info, u_can_buy_BTG_in_Bit_z_com);
+        var bit_z_com_sorted = require('./exchanges/bit_z_com.js')(
+            bit_z_com_BTG_BTC_depth,
+            'BTG',
+            i
+        );
 
         // finely calculation
-        var buy__BTG__in_Bit_z_com__sell_in_Bi2c_margin = bi2c_sorted.u_can_sell_BTG__in_bi2c_for_BTC -
-            u_can_buy_BTG_in_Bit_z_com;
+        var buy__BTG__in_Bit_z_com__sell_in_Bi2c_margin = bi2c_sorted.u_can_sell_BTG__in_bi2c_for_BTC - bit_z_com_sorted.u_can_buy_BTG_in_Bit_z_com;
         DEBUG && console.log('buy__BTG__in_Bit_z_com__sell_in_Bi2c'.info,
             buy__BTG__in_Bit_z_com__sell_in_Bi2c_margin);
 
-        var buy__BTG__in_BI2C_sell_in_BIT_Z_COM = u_can_sell_BTG_in_Bit_z_com -
-            bi2c_sorted.u_can_buy_BTG_in_BI2C_for_BTC;
+        var buy__BTG__in_BI2C_sell_in_BIT_Z_COM = bit_z_com_sorted.u_can_sell_BTG_in_Bit_z_com - bi2c_sorted.u_can_buy_BTG_in_BI2C_for_BTC;
         DEBUG && console.log('buy__BTG__in_BI2C_sell_in_BIT_Z_COM'.info,
             buy__BTG__in_BI2C_sell_in_BIT_Z_COM);
 

@@ -1,40 +1,31 @@
+// bit-z.com
+//  https://www.bit-z.com/about/fee
+// https://www.bit-z.com/api.html
+// the price - less the trade fee - and less Withdrawal fee
 
-//var prettyjson = require('prettyjson');
-var async = require('async');
-// var request = require('request');
+module.exports = function bit_z_com_sorted(bit_z_com_BTG_BTC_depth, coin,
+                                           action_i) {
+  DEBUG && console.log('in bit_z_com_sorted'.info);
 
-
-  async.function(function(response) {
-    var rp = require('request-promise');
-
-    var options = {
-      // uri: 'https://www.bit-z.com/api_v1/ticker?coin=btg_btc',
-      uri: 'https://www.bit-z.com/api_v1/tickerall',
-      qs: {
-        access_token: 'xxxxx xxxxx' // -> uri + '?access_token=xxxxx%20xxxxx'
-      },
-      headers: {
-        'User-Agent': 'Request-Promise'
-      },
-      json: true // Automatically parses the JSON string in the response
-    };
-
-    rp(options).then(function(da) {
-      DEBUG && console.log('ssss');
-     // resolve(da);
-    }).catch(function(err) {
-      // API call failed...
-    })
+  var bit_z_com_sorted = {
+    u_can_sell_BTG_in_Bit_z_com: null,
+    u_can_buy_BTG_in_Bit_z_com: null
+  };
 
 
 
+  bit_z_com_sorted.u_can_sell_BTG_in_Bit_z_com = (bit_z_com_BTG_BTC_depth.data.bids[action_i][0] * 0.999) * 0.995;
+  // DEBUG && console.log('u_can_sell_BTG_in_Bit_z_com'.info, bit_z_com_sorted);
+ // DEBUG && console.log('bit_z_com_BTG_BTC_depth.data.asks',bit_z_com_BTG_BTC_depth.data.asks);
 
+  var sss = bit_z_com_BTG_BTC_depth.data.asks ;
+   var gg = sss.reverse();
+//   DEBUG && console.log('asks after sort',gg);
+ // DEBUG && console.log('bit_z_com_BTG_BTC_depth.data.asks[action_i][0]', bit_z_com_BTG_BTC_depth.data.asks[action_i][0]);
+  bit_z_com_sorted.u_can_buy_BTG_in_Bit_z_com = (gg[action_i][0] * 1.001) * 1.005;
+  //DEBUG && console.log('u_can_buy_BTG_in_Bit_z_com'.info, u_can_buy_BTG_in_Bit_z_com);
+  
+  DEBUG && console.log('bit_z_com_sorted'.info , bit_z_com_sorted);
 
-});
-
-
-//module.exports  =  gg();
-
-
-
-
+  return bit_z_com_sorted ;
+};
