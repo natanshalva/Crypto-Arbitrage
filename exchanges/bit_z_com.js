@@ -18,11 +18,11 @@ module.exports = function bit_z_com_sorted(bit_z_com_BTG_BTC_depth, coin,
   // DEBUG && console.log('u_can_sell_BTG_in_Bit_z_com'.info, bit_z_com_sorted);
  // DEBUG && console.log('bit_z_com_BTG_BTC_depth.data.asks',bit_z_com_BTG_BTC_depth.data.asks);
 
-  var sss = bit_z_com_BTG_BTC_depth.data.asks ;
-   var gg = sss.reverse();
+  //var sss = bit_z_com_BTG_BTC_depth.data.asks ;
+ //  var gg = sss.reverse();
 //   DEBUG && console.log('asks after sort',gg);
  // DEBUG && console.log('bit_z_com_BTG_BTC_depth.data.asks[action_i][0]', bit_z_com_BTG_BTC_depth.data.asks[action_i][0]);
-  bit_z_com_sorted.u_can_buy_BTG_in_Bit_z_com = (gg[action_i][0] * 1.001) * 1.005;
+  bit_z_com_sorted.u_can_buy_BTG_in_Bit_z_com = (bit_z_com_BTG_BTC_depth.data.asks[action_i][0] * 1.001) * 1.005;
   //DEBUG && console.log('u_can_buy_BTG_in_Bit_z_com'.info, u_can_buy_BTG_in_Bit_z_com);
   
   DEBUG && console.log('bit_z_com_sorted'.info , bit_z_com_sorted);
