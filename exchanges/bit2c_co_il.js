@@ -1,69 +1,52 @@
 
-var gg =  function() {
-var bit2c = require('bit2c');
+/*var gg =  function() {
+var bit2c = require('bit2c');*/
 
+  module.exports  =  function execute_bi2c_sort(
+                          USD_NIS,
+                          bit2c_co_il_NIS_BTC,
+                          bit2c_co_il_BTG_NIS_order_book,
+                          coin,
+                          action_i) {
+    DEBUG && console.log('in sort:'.info, coin);
 
+    var bi2c_sort = {
+      lowest_sell_BTG__in_NIS: null,
+      haighest_buy_BTG___in_NIS: null,
+      u_can_buy_BTG_in_BI2C_for_BTC: null,
+      u_can_sell_BTG__in_bi2c_for_BTC: null,
+      BTC_NIS: null,
+      BTC_USD: null
+    };
+    bi2c_sort.lowest_sell_BTG__in_NIS = bit2c_co_il_BTG_NIS_order_book.asks[action_i][0];
+    bi2c_sort.haighest_buy_BTG___in_NIS = bit2c_co_il_BTG_NIS_order_book.bids[action_i][0];
 
-/*
-bit2c.getOrderBook('BtgNis', function(error, ticker) {
-    console.log('-------------------------------------------');
-    console.log('-               BT2C      - Btg           -');
-    console.log('-------------------------------------------');
-    console.log(ticker);
-    console.log('');
-  //  return ticker;
-  //  BUY__BTG__IN_BI2C =  ticker.ll ;
-  // console.log(' buy BTG price in nis:' , ticker.h );
-  //  console.log(' buy BTG price in nis - after fee :' , ticker.h * 0.995   );
-  });
-  */
+    // SELL BTC - to NIS
+    // BUY BTG - with nis
 
+    function normalize_Bi2c(coin_value, coin_fee, bit2c_co_il_NIS_BTC) {
+      var re =  ((coin_value * coin_fee) / bit2c_co_il_NIS_BTC.h  ) ;
+      DEBUG && console.log('calculte the coin * fee / bitcoin price in NIS'.info, re );
+      return re ;
+    }
 
-bit2c.getTicker('BtgNis', function(error, ticker) {
-  console.log('-------------------------------------------');
-  console.log('-               BT2C      - Btg           -');
-  console.log('-------------------------------------------');
-  console.log(ticker);
-  console.log('');
-  //  return ticker;
-  //   ticker.ll ;
-  // console.log(' buy BTG price in nis:' , ticker.h );
-  console.log(' buy BTG price in nis - after fee :' , ticker.h * 0.995   );
+    bi2c_sort.u_can_buy_BTG_in_BI2C_for_BTC = normalize_Bi2c(
+        bi2c_sort.lowest_sell_BTG__in_NIS,
+        1.005,
+        bit2c_co_il_NIS_BTC
+    );
+    //  DEBUG && console.log('u_can_buy_BTG_in_BI2C_for_BTC',bi2c_sorted.u_can_buy_BTG_in_BI2C_for_BTC);
 
-/*  bit2c.getTicker('BtcNis', function(error, bitcoin) {
-    console.log(bitcoin);
-    BUY__BTG__IN_BI2C = ( ticker.l * 0.995)  /  bitcoin.h;
-    console.log( 'BUY__BTG__IN_BI2C',BUY__BTG__IN_BI2C ) ;
-    SELL__BTG__IN_BI2C = ( ticker.h * 0.995)  /  bitcoin.h;
-    console.log( 'SELL__BTG__IN_BI2C',SELL__BTG__IN_BI2C ) ;
+    bi2c_sort.u_can_sell_BTG__in_bi2c_for_BTC = normalize_Bi2c(
+        bi2c_sort.haighest_buy_BTG___in_NIS, 0.995, // 0.5%
+        bit2c_co_il_NIS_BTC,
+        0.995 // 0.5%
+    );
+    //  console.log( 'u_can_sell_BTG__in_bi2c_for_BTC ',bi2c_sorted.u_can_sell_BTG__in_bi2c_for_BTC ) ;
 
-    BUY__BTG__IN_BIT_Z_COM____SELL__BTG__IN_BI2C  = BUY__BTG__IN_BIT_Z_COM  - SELL__BTG__IN_BI2C;
+    bi2c_sort.BTC_NIS = bit2c_co_il_NIS_BTC.h ;
+    bi2c_sort.BTC_USD = bit2c_co_il_NIS_BTC.h / USD_NIS;
 
-    buy__BTG__in_BI2C__sell__BTG__in_BIT_Z_COM = BUY__BTG__IN_BI2C - SELL__BTG__IN_BIT_Z_COM ;
-
-    var read_number_in_nis = parseFloat(buy__BTG__in_BI2C__sell__BTG__in_BIT_Z_COM * bitcoin.h).toFixed(2)  ;
-    console.log( 'buy in bi2c and sell in bit-z.com - in NIS' ,  read_number_in_nis );
-
-    console.log( 'buy in bit-z.com and sell in bit-z.com - in NIS' , BUY__BTG__IN_BIT_Z_COM____SELL__BTG__IN_BI2C * bitcoin.h);
-  });*/
-
-});
-
-
-
-
-
-/*
-
-
-
-// getting your current balance
-  bit2c.getBalance(credentials, function(error, balance) {
-    console.log('-------------------------------------------');
-    console.log('-               BT2C                      -');
-    console.log('-------------------------------------------');
-    console.log(balance);
-  });*/
-};
-
-module.exports  =  gg();
+    DEBUG && console.log('bi2c_sorted_in_function'.info, bi2c_sort);
+    return bi2c_sort;
+  };
