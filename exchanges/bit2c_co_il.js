@@ -15,11 +15,13 @@ var bit2c = require('bit2c');*/
       haighest_buy_BTG___in_NIS: null,
       u_can_buy_BTG_in_BI2C_for_BTC: null,
       u_can_sell_BTG__in_bi2c_for_BTC: null,
-      BTC_NIS: null,
-      BTC_USD: null
+      BTC_NIS: null
     };
+
+    bi2c_sort.BTC_NIS = bit2c_co_il_NIS_BTC.h ;
+
     bi2c_sort.lowest_sell_BTG__in_NIS = bit2c_co_il_BTG_NIS_order_book.asks[action_i][0];
-    bi2c_sort.haighest_buy_BTG___in_NIS = bit2c_co_il_BTG_NIS_order_book.bids[action_i][0];
+    bi2c_sort.haighest_buy_BTG___in_NIS = bit2c_co_il_BTG_NIS_order_book.bids[action_i][0] ;
 
     // SELL BTC - to NIS
     // BUY BTG - with nis
@@ -31,21 +33,22 @@ var bit2c = require('bit2c');*/
     }
 
     bi2c_sort.u_can_buy_BTG_in_BI2C_for_BTC = normalize_Bi2c(
-        bi2c_sort.lowest_sell_BTG__in_NIS,
+        bit2c_co_il_BTG_NIS_order_book.asks[action_i][0],
         1.005,
         bit2c_co_il_NIS_BTC
     );
     //  DEBUG && console.log('u_can_buy_BTG_in_BI2C_for_BTC',bi2c_sorted.u_can_buy_BTG_in_BI2C_for_BTC);
 
     bi2c_sort.u_can_sell_BTG__in_bi2c_for_BTC = normalize_Bi2c(
-        bi2c_sort.haighest_buy_BTG___in_NIS, 0.995, // 0.5%
+        bit2c_co_il_BTG_NIS_order_book.bids[action_i][0],
+         0.995, // 0.5%
         bit2c_co_il_NIS_BTC,
         0.995 // 0.5%
     );
     //  console.log( 'u_can_sell_BTG__in_bi2c_for_BTC ',bi2c_sorted.u_can_sell_BTG__in_bi2c_for_BTC ) ;
 
-    bi2c_sort.BTC_NIS = bit2c_co_il_NIS_BTC.h ;
-    bi2c_sort.BTC_USD = bit2c_co_il_NIS_BTC.h / USD_NIS;
+
+
 
     DEBUG && console.log('bi2c_sorted_in_function'.info, bi2c_sort);
     return bi2c_sort;
