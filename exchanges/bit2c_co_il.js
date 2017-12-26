@@ -14,10 +14,14 @@ var bit2c = require('bit2c');*/
       haighest_buy_BTG___in_NIS: null,
       u_can_buy_BTG_in_BI2C_for_BTC: null,
       u_can_sell_BTG__in_bi2c_for_BTC: null,
+      buy_quantity: null,
+      sell_quantity: null,
       BTC_NIS: null
     };
 
     bi2c_sort.BTC_NIS = bit2c_co_il_NIS_BTC.h ;
+    bi2c_sort.buy_quantity =  bit2c_co_il_BTG_NIS_order_book.asks[action_i][1] ;
+    bi2c_sort.sell_quantity = bit2c_co_il_BTG_NIS_order_book.bids[action_i][1] ;
 
     bi2c_sort.lowest_sell_BTG__in_NIS = bit2c_co_il_BTG_NIS_order_book.asks[action_i][0];
     bi2c_sort.haighest_buy_BTG___in_NIS = bit2c_co_il_BTG_NIS_order_book.bids[action_i][0] ;
