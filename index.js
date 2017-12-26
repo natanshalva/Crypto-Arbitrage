@@ -280,43 +280,22 @@ async.parallel([
             'buy__BTG__in_Bit_z_com__sell_in_Bi2c - margin in NIS: '
         );
 
-
+         var params_of_examine_to_store = {
+           coin: 'BTG',
+           buy_form: 'Bit-z.com',
+           sell_in: 'bit2c.co.il',
+           quantity: quantity_available_for_trade_value,
+           profit: margin_in_NIS
+         };
 
         // start send
         if (buy__BTG__in_Bit_z_com__sell_in_Bi2c_price_margin > 0) {
-          DEBUG && console.log('ok, we have pasitive number ');
-          DEBUG && console.log('start send api process'.info);
-          function send_examine (callback) {
 
-            DEBUG && console.log('we are in send_examine');
-            var rp = require('request-promise');
-            var options = {
-              method: 'POST',
-              uri: 'http://manage_arber.local/Api/en/v1/examines',
-              qs: {
-                coin: 'BTG',
-                buy_form: 'Bit-z.com',
-                sell_in: 'bit2c.co.il',
-                quantity: quantity_available_for_trade_value,
-                profit: margin_in_NIS
-                //   access_token: 'xxxxx xxxxx' // -> uri + '?access_token=xxxxx%20xxxxx'
-              },
-              headers: {
-                'User-Agent': 'Request-Promise'
-              },
-              json: true // Automatically parses the JSON string in the response
-            };
-            rp(options).then(function(da) {
-              DEBUG && console.log('we have results');
-              DEBUG && console.log(da);
-              callback(null,da);
-            }).catch(function(err) {
-              // DEBUG && console.log('API call failed...');
-              // API call failed...
-            });
-          };
-          send_examine();
-/*          total_quantity_BTG = total_quantity_BTG + bit2c_co_il_BTG_NIS_order_book.asks[i][1];
+          DEBUG && console.log('ok, we have pasitive number ');
+
+          require('./custom_moduls/store_data.js')( params_of_examine_to_store);
+
+          /*          total_quantity_BTG = total_quantity_BTG + bit2c_co_il_BTG_NIS_order_book.asks[i][1];
           console.log('the total quantity in BTG is: '.info, total_quantity_BTG);
 
           if ((total_quantity_BTG * bi2c_sorted.haighest_buy_BTG___in_NIS) >= quantity_trade_limit_in_NIS) {
@@ -363,6 +342,7 @@ async.parallel([
         } else {
           console.log('ok, this is minus margin - we are out of this loop  ');
           DEBUG && console.log(' ');
+          require('./custom_moduls/store_data.js')( params_of_examine_to_store);
 /*
           var buy__BTG__in_BI2C_sell_in_BIT_Z_COM = bit_z_com_sorted.u_can_sell_BTG_in_Bit_z_com - bi2c_sorted.u_can_buy_BTG_in_BI2C_for_BTC;
           DEBUG && console.log('buy__BTG__in_BI2C_sell_in_BIT_Z_COM: '.info, buy__BTG__in_BI2C_sell_in_BIT_Z_COM);
