@@ -3,7 +3,6 @@ module.exports = function (params_of_examine_to_store) {
   DEBUG && console.log('we are in store_data.js'.info);
 
   function send_examine(callback) {
-
     DEBUG && console.log('we are in send_examine');
     var rp = require('request-promise');
     var options = {
@@ -23,5 +22,6 @@ module.exports = function (params_of_examine_to_store) {
       // DEBUG && console.log('API call failed...');
       // API call failed...
     });
-  };send_examine();
+  };
+  send_examine();
 };
