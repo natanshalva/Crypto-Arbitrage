@@ -1,3 +1,4 @@
+
 // DEBUG = false;
 DEBUG = true;
 
@@ -168,27 +169,27 @@ async.parallel([
 
 // start check with
 
-      function print_margin_in_NIS(margin,contenty,txt) {
-        DEBUG && console.log('we are in print_margin_in_NIS');
-        var margin_in_BTC = price_in_BTC_dobel_quantity_in_BTG_of_this_price(margin, contenty);
+      function print_margin_in_NIS(margin,quantity_available_for_trade,txt) {
+        DEBUG && console.log('we are in print_margin_in_NIS'.info);
+        DEBUG && console.log('margin: '.info, margin);
+        DEBUG && console.log('quantity_available_for_trade: '.info, quantity_available_for_trade);
+        var margin_in_BTC = price_in_BTC_dobel_quantity_in_BTG_of_this_price(margin,quantity_available_for_trade);
 
-        print_BTC_in_NIS(margin_in_BTC, bit2c_co_il_NIS_BTC.h, txt);
-        return margin_in_BTC;
+        var print_BTC_in_NIS_v = print_BTC_in_NIS(margin_in_BTC, bit2c_co_il_NIS_BTC.h, txt);
+        return print_BTC_in_NIS_v;
       }
 
-      for (var i = 0; i < orders_to_inspect.length; i++) {
-        DEBUG && console.log('orders_to_inspect: '.info, orders_to_inspect[i]);
-        //Do something
-
-        //  console.log('reference_point', reference_point);
-        //   DEBUG && console.log('are we ? what is i? ', i );
-
-        console.log('                                                        '.info);
+    //  for (var i = 0; i < orders_to_inspect.length; i++) {
+      for (var i = 0; i < 1; i++) {
+        DEBUG && console.log(' ');
+        console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@'.info);
+        console.log('                 start scale                            '.red);
         console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@'.info);
         console.log('                                                         '.info);
-
+        DEBUG && console.log('Start sort bit2c asks number:'.info, i);
+        DEBUG && console.log('bit2c_co_il_BTG_NIS_order_book.asks : '.info, orders_to_inspect[i]);
+        
         /*
-
                 // if the amaut to sell in the first row is higher then the limit...
                 if( ((total_quantity_BTG  + value[1]) * bit2c_co_il_BTG_NIS_order_book.bids[i][0] ) >  quantity_trade_limit_in_NIS){
                   DEBUG && console.log('the quantity of this row is: '.info, value[1]);
@@ -206,7 +207,7 @@ async.parallel([
         //    Bi2c
         //------------------------------------------------------------
 
-        DEBUG && console.log('Start sort bit2c asks number:'.info, i);
+
 
         var bi2c_sorted = require('./exchanges/bit2c_co_il.js')(
             bit2c_co_il_NIS_BTC, bit2c_co_il_BTG_NIS_order_book,
@@ -223,17 +224,21 @@ async.parallel([
         // ********************************************************************************
         // finely calculation
         // ********************************************************************************
-        var buy__BTG__in_Bit_z_com__sell_in_Bi2c_margin = bi2c_sorted.u_can_sell_BTG__in_bi2c_for_BTC - bit_z_com_sorted.u_can_buy_BTG_in_Bit_z_com;
-        DEBUG && console.log('buy__BTG__in_Bit_z_com__sell_in_Bi2c'.info, buy__BTG__in_Bit_z_com__sell_in_Bi2c_margin);
+        var buy__BTG__in_Bit_z_com__sell_in_Bi2c_price_margin = bi2c_sorted.u_can_sell_BTG__in_bi2c_for_BTC - bit_z_com_sorted.u_can_buy_BTG_in_Bit_z_com;
+        DEBUG && console.log('buy__BTG__in_Bit_z_com__sell_in_Bi2c'.info, buy__BTG__in_Bit_z_com__sell_in_Bi2c_price_margin);
 
-        var buy__BTG__in_BI2C_sell_in_BIT_Z_COM = bit_z_com_sorted.u_can_sell_BTG_in_Bit_z_com - bi2c_sorted.u_can_buy_BTG_in_BI2C_for_BTC;
-        DEBUG && console.log('buy__BTG__in_BI2C_sell_in_BIT_Z_COM'.info, buy__BTG__in_BI2C_sell_in_BIT_Z_COM);
+/*        var buy__BTG__in_BI2C_sell_in_BIT_Z_COM = bit_z_com_sorted.u_can_sell_BTG_in_Bit_z_com - bi2c_sorted.u_can_buy_BTG_in_BI2C_for_BTC;
+        DEBUG && console.log('buy__BTG__in_BI2C_sell_in_BIT_Z_COM'.info, buy__BTG__in_BI2C_sell_in_BIT_Z_COM);*/
 
         //------------------------------------------------------------------------------------
 
         function price_in_BTC_dobel_quantity_in_BTG_of_this_price(margin, quantity) {
-          DEBUG && console.log('type of... margin'.info, typeof margin);
-          DEBUG && console.log('type of...quantity '.info, typeof quantity);
+          DEBUG && console.log('      ');
+          DEBUG && console.log('we are in price_in_BTC_dobel_quantity_in_BTG_of_this_price');
+          DEBUG && console.log('margin'.info, margin);
+         // DEBUG && console.log('type of... margin'.info, typeof margin);
+          DEBUG && console.log('quantity '.info, quantity);
+         // DEBUG && console.log('type of...quantity '.info, typeof quantity);
           var re = margin * quantity;
 
           DEBUG && console.log('type of... '.info, typeof re);
@@ -252,21 +257,61 @@ async.parallel([
           return read_number_in_nis;
         }
 
-        // bit2c_co_il_BTG_NIS_order_book.asks[i][1]
-         print_margin_in_NIS(
-            buy__BTG__in_Bit_z_com__sell_in_Bi2c_margin,
-            bit2c_co_il_BTG_NIS_order_book.asks[i][1],
+        var quantity_available_for_trade =  function(quantity_for_sell,quantity_available) {
+          DEBUG && console.log('we are in: quantity_available_for_trade'.info);
+          DEBUG && console.log('quantity_for_sell: '.info, quantity_for_sell);
+          DEBUG && console.log('quantity_available: '.info, quantity_available);
+          if(quantity_for_sell <= quantity_available ) {
+            var quantity = quantity_for_sell  ;
+          }else{
+            var quantity = quantity_available  ;
+          }
+          return quantity;
+        };
+
+         var margin_in_NIS = print_margin_in_NIS(
+            buy__BTG__in_Bit_z_com__sell_in_Bi2c_price_margin,
+             quantity_available_for_trade,
             'buy__BTG__in_Bit_z_com__sell_in_Bi2c - margin in NIS: '
         );
 
-        //   var re  = price_dobel_quantity(buy__BTG__in_BI2C_sell_in_BIT_Z_COM,bit2c_co_il_BTG_NIS_order_book.asks[i][1]);
 
-        //    print_in_NIS( re , bi2c_sorted.haighest_buy_BTG___in_NIS ,
-        //         'buy__BTG__in_BI2C_sell_in_BIT_Z_COM - in NIS: ');
 
-        if (buy__BTG__in_Bit_z_com__sell_in_Bi2c_margin > 0) {
-          
+
+        // start send
+        if (buy__BTG__in_Bit_z_com__sell_in_Bi2c_price_margin > 0) {
           DEBUG && console.log('ok, we have pasitive number ');
+          DEBUG && console.log('start send api process'.info);
+          function send_examine (callback) {
+
+            DEBUG && console.log('we are in send_examine');
+            var rp = require('request-promise');
+            var options = {
+              method: 'POST',
+              uri: 'http://manage_arber.local/Api/en/v1/examines',
+              qs: {
+                coin: 'BTG',
+                buy_form: 'Bit-z.com',
+                sell_in: 'bit2c.co.il',
+                quantity: quantity_available_for_trade,
+                profit: margin_in_NIS
+                //   access_token: 'xxxxx xxxxx' // -> uri + '?access_token=xxxxx%20xxxxx'
+              },
+              headers: {
+                'User-Agent': 'Request-Promise'
+              },
+              json: true // Automatically parses the JSON string in the response
+            };
+            rp(options).then(function(da) {
+              DEBUG && console.log('we have results');
+              DEBUG && console.log(da);
+              callback(null,da);
+            }).catch(function(err) {
+              // DEBUG && console.log('API call failed...');
+              // API call failed...
+            });
+          };
+          send_examine();
 /*          total_quantity_BTG = total_quantity_BTG + bit2c_co_il_BTG_NIS_order_book.asks[i][1];
           console.log('the total quantity in BTG is: '.info, total_quantity_BTG);
 
@@ -312,9 +357,9 @@ async.parallel([
               'total_profit (sum all margin ) - in NIS: '.yellow);*/
 
         } else {
-          console.log('ok, this is minus margin - lets check the other way arwond  ');
+          console.log('ok, this is minus margin - we are out of this loop  ');
           DEBUG && console.log(' ');
-
+/*
           var buy__BTG__in_BI2C_sell_in_BIT_Z_COM = bit_z_com_sorted.u_can_sell_BTG_in_Bit_z_com - bi2c_sorted.u_can_buy_BTG_in_BI2C_for_BTC;
           DEBUG && console.log('buy__BTG__in_BI2C_sell_in_BIT_Z_COM: '.info, buy__BTG__in_BI2C_sell_in_BIT_Z_COM);
           DEBUG && console.log('sssss'.info);
@@ -324,12 +369,15 @@ async.parallel([
               buy__BTG__in_BI2C_sell_in_BIT_Z_COM,
               bit_z_com_BTG_BTC_depth.data.bids[i][1],
               'buy__BTG__in_BI2C_sell_in_BIT_Z_COM - margin in NIS: '
-          );
+          );*/
 
           break;
         }
 
       };
+
+
+
       DEBUG && console.log('...done');
 
 
