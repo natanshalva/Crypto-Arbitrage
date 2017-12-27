@@ -1,5 +1,6 @@
 /node_modules
-/bit2c__bit_z/node_modules
+/bit2c__bit_z/btg_btc/node_modules
+/bit2c__bit_z/bch_btc/node_modules
 
 /public/storage
 /vendor
