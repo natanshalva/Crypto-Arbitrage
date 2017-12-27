@@ -7,9 +7,9 @@ module.exports = function (params_of_examine_to_store, STORE_NEGATIVE_RESOLES) {
 
     if(params_of_examine_to_store.profit < 0 ){
       if(STORE_NEGATIVE_RESOLES ){
-        DEBUG && console.log('STORE_NEGATIVE_RESOLES : ', STORE_NEGATIVE_RESOLES);
+        DEBUG && console.log('STORE_NEGATIVE_RESOLES : '.info , STORE_NEGATIVE_RESOLES);
       }else {
-        DEBUG && console.log('STORE_NEGATIVE_RESOLES : ', STORE_NEGATIVE_RESOLES);
+        DEBUG && console.log('STORE_NEGATIVE_RESOLES : '.info, STORE_NEGATIVE_RESOLES);
         return true;
       }
     }
