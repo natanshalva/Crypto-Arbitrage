@@ -1,5 +1,8 @@
 // DEBUG = false;
 DEBUG = true;
+
+var coin_name = 'BTG';
+
 // var run_in_loop = false;
  var run_in_loop = true;
 var delay_in_milliseconds = 30000;
@@ -27,7 +30,6 @@ console.log('Arber is runing ...'.info);
 function run_in_loop_wrapper() {           //  create a loop function
 
   async.parallel([
-
         function get__bit_z_com(callback) {
           //  callback(null,1);
           /*   require('./exchanges/bit_z_com').then(function(foo){
@@ -119,13 +121,13 @@ function run_in_loop_wrapper() {           //  create a loop function
              };
 
              DEBUG && console.log('bit_z_com_BTC_BTG: '.info, bit_z_com_BTG_BTC);
-
+       */
 
        // var bit2c_co_il_BTG_NIS_order_book = results[1];
-             var bit2c_co_il_BTG_NIS_order_book = {
+/*             var bit2c_co_il_BTG_NIS_order_book = {
                asks: [
                  [
-                   1, 1.0000000, 1514008359,
+                   1, 4.0000000, 1514008359,
                  ], [
                    1160, 0.95, 1514004596,
                  ], [
@@ -133,7 +135,7 @@ function run_in_loop_wrapper() {           //  create a loop function
                  ],
                ], bids: [
                  [
-                   1, 1, 1514012415,
+                   100000, 1, 1514012415,
                  ], [
                    1000.04, 6.916, 1513992928,
                  ], [
@@ -143,15 +145,15 @@ function run_in_loop_wrapper() {           //  create a loop function
              };
 
              DEBUG && console.log('bit2c_co_il_BTG_NIS_order_book: ',
-                 bit2c_co_il_BTG_NIS_order_book);
+                 bit2c_co_il_BTG_NIS_order_book);*/
 
        // var bit2c_co_il_NIS_BTC = results[2];
-             var bit2c_co_il_NIS_BTC = {
+/*             var bit2c_co_il_NIS_BTC = {
                h: 52310.01, l: 54999, ll: 54999, a: 156.39665432, av: 49138.04600734523,
              };
 
-             console.log('bit2c_co_il_NIS_BTC: '.info, bit2c_co_il_NIS_BTC);
-       */
+             console.log('bit2c_co_il_NIS_BTC: '.info, bit2c_co_il_NIS_BTC);*/
+
 //&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 
         var total_quantity_BTG = 0;
@@ -231,6 +233,7 @@ function run_in_loop_wrapper() {           //  create a loop function
 
 
         function normalize_Bi2c(coin_value, trade_fee, bit2c_co_il_NIS_BTC) {
+          DEBUG && console.log(' '.info );
           DEBUG && console.log('in normalize_Bi2c'.info );
           // http://mikemcl.github.io/big.js/
 
@@ -260,7 +263,7 @@ function run_in_loop_wrapper() {           //  create a loop function
 
 
           
-          var b_withdraw_fee_in_BTC = ( b_BTG_withdraw_fee  * b_coin_value)  / b_bitcoin_price ; // withdrow fee : BTG 0.0001
+          var b_withdraw_fee_in_BTC =  ( b_BTG_withdraw_fee * b_coin_value)  / b_bitcoin_price ; // withdrow fee : BTG 0.0001
           DEBUG && console.log('b_withdraw_fee_in_BTC: '.info ,parseFloat(b_withdraw_fee_in_BTC));
 
           var b_buy_BTC_in_Bit_z_com = new Big(0.999);
@@ -269,25 +272,26 @@ function run_in_loop_wrapper() {           //  create a loop function
           // start calculation
           // ----------------------------------------------------------------
 
-          var coin_value_after_trade_fee =  b_coin_value.times(b_trade_fee); //sell/buy  coin * fee
+          var coin_value_after_trade_fee =  (b_coin_value.times(b_trade_fee)); //sell/buy  coin * fee
           DEBUG && console.log('sell/buy  coin * fee: '.info ,parseFloat(coin_value_after_trade_fee));
 
           var value_in_BTC = coin_value_after_trade_fee.div(b_bitcoin_price); // NIS / bitcoin price
           DEBUG && console.log('NIS / bitcoin price: '.info ,parseFloat(value_in_BTC));
 
-          var value_after_buy_other_coin = value_in_BTC.times(b_buy_Other_coin_fee.toFixed(8)); // buy Other coin to transfer the money out the exchange
+          var value_after_buy_other_coin = value_in_BTC.times(b_buy_Other_coin_fee); // buy Other coin to transfer the money out the exchange
           DEBUG && console.log('buy Other coin to transfer the money out the exchange: '.info ,parseFloat(value_after_buy_other_coin));
 
-          var value_minus_withdraw_fee = value_after_buy_other_coin.minus(b_withdraw_fee_in_BTC); // withdraw fee
+       //   var value_minus_withdraw_fee = value_after_buy_other_coin.minus(b_withdraw_fee_in_BTC); // withdraw fee
+          var value_minus_withdraw_fee = value_after_buy_other_coin; // withdraw fee
           DEBUG && console.log('withdraw fee: '.info ,parseFloat(value_minus_withdraw_fee));
           
           var b = value_minus_withdraw_fee.times(b_buy_BTC_in_Bit_z_com);//  add - buy BTC in Bit-z.com fee  : 0.999
-          DEBUG && console.log('after withdarw - buy BTC in Bit-z.com fee  : 0.999: '.info ,parseFloat(value_minus_withdraw_fee));
+          DEBUG && console.log('after withdarw - buy BTC in Bit-z.com fee  : 0.999: '.info ,value_minus_withdraw_fee);
 
 
           // transfer Other coin fee not included ~ 0.0001 ;
 
-          var re =  parseFloat(b.toFixed(8));
+          var re =  parseFloat(b);
 
           DEBUG && console.log('calculte the coin * fee / bitcoin price in NIS: '.info,re);
           return re  ;
@@ -319,10 +323,10 @@ function run_in_loop_wrapper() {           //  create a loop function
           var after_trade_fee = b_coin_value.times(b_trade_fee) ; // trade fee
           DEBUG && console.log('after_trade_fee: '.info ,parseFloat(after_trade_fee));
 
-          var after_withdraw_fee = after_trade_fee.times(b_withdraw_fee.toFixed(8)); // withdraw
+          var after_withdraw_fee = after_trade_fee.times(b_withdraw_fee); // withdraw
           DEBUG && console.log('after_withdraw_fee: '.info ,parseFloat(after_withdraw_fee));
 
-          var re =  parseFloat(after_withdraw_fee.toFixed(8));
+          var re =  parseFloat(after_withdraw_fee);
 
           DEBUG && console.log('(calculte the coin * fee ) * withdraw_fee : '.info,re);
           return re  ;
@@ -401,7 +405,7 @@ function run_in_loop_wrapper() {           //  create a loop function
           var margin_in_the_same_coin_value = margin_in_the_same_coin( buy__BTG__in_Bit_z_com__sell_in_Bi2c_price_margin ,quantity_available_for_trade_value);
 
           var params_of_examine_to_store = {
-            coin: 'BTG',
+            coin: coin_name ,
             buy_form: 'Bit-z.com',
             sell_in: 'bit2c.co.il',
             quantity: quantity_available_for_trade_value,
@@ -420,7 +424,7 @@ function run_in_loop_wrapper() {           //  create a loop function
           var margin_in_the_same_coin_value_other_why = margin_in_the_same_coin( buy__BTG__in_BI2C_sell_in_BIT_Z_COM ,quantity_available_for_trade_value_other_why);
 
           var params_of_examine_to_store = {
-            coin: 'BTG',
+            coin: coin_name ,
             buy_form: 'bit2c.co.il',
             sell_in: 'Bit-z.com',
             quantity: quantity_available_for_trade_value_other_why,
