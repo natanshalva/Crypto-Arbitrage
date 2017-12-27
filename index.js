@@ -306,10 +306,10 @@ function run_in_loop_wrapper() {           //  create a loop function
           DEBUG && console.log('in normalize_Bit_z_com'.info );
 
           var b_coin_value = new Big(coin_value);
-          DEBUG && console.log('coin_value: '.info ,parseFloat(b_coin_value ));
+          DEBUG && console.log('b_coin_value: '.info ,parseFloat(b_coin_value ));
 
           var b_trade_fee = new Big(trade_fee);
-          DEBUG && console.log('trade_fee: '.info ,parseFloat(b_trade_fee ));
+          DEBUG && console.log('b_trade_fee: '.info ,parseFloat(b_trade_fee ));
 
           var b_withdraw_fee = new Big(withdraw_fee);
           DEBUG && console.log('b_withdraw_fee : '.info ,parseFloat(b_withdraw_fee ));
@@ -317,7 +317,7 @@ function run_in_loop_wrapper() {           //  create a loop function
           // ---////////////////////////////////////////
 
           var after_trade_fee = b_coin_value.times(b_trade_fee) ; // trade fee
-          DEBUG && console.log('after_trade_fee: '.info ,parseFloat(b_w_fee));
+          DEBUG && console.log('after_trade_fee: '.info ,parseFloat(after_trade_fee));
 
           var after_withdraw_fee = after_trade_fee.times(b_withdraw_fee.toFixed(8)); // withdraw
           DEBUG && console.log('after_withdraw_fee: '.info ,parseFloat(after_withdraw_fee));
@@ -372,20 +372,23 @@ function run_in_loop_wrapper() {           //  create a loop function
               bit_z_com_BTG_BTC_depth, 'BTG', i, normalize_Bit_z_com);
 
           // ********************************************************************************
-          // finely calculation
+          //        finely calculation
           // ********************************************************************************
           DEBUG && console.log(' ');
           DEBUG && console.log('start calculation'.info);
+
           var buy__BTG__in_Bit_z_com__sell_in_Bi2c_price_margin = bi2c_sorted.u_can_sell_BTG__in_bi2c_for_BTC -
               bit_z_com_sorted.u_can_buy_BTG_in_Bit_z_com;
 
-          DEBUG && console.log('buy__BTG__in_Bit_z_com__sell_in_Bi2c'.info,
-              buy__BTG__in_Bit_z_com__sell_in_Bi2c_price_margin);
+          DEBUG && console.log('buy__BTG__in_Bit_z_com__sell_in_Bi2c'.info, buy__BTG__in_Bit_z_com__sell_in_Bi2c_price_margin);
 
           var buy__BTG__in_BI2C_sell_in_BIT_Z_COM = bit_z_com_sorted.u_can_sell_BTG_in_Bit_z_com - bi2c_sorted.u_can_buy_BTG_in_BI2C_for_BTC;
                   DEBUG && console.log('buy__BTG__in_BI2C_sell_in_BIT_Z_COM'.info, buy__BTG__in_BI2C_sell_in_BIT_Z_COM);
           //------------------------------------------------------------------------------------
 
+          //------------------------------------------------------------------------------------
+          //      buy_form: 'Bit-z.com -> sell in Bit2c.co.il
+          //------------------------------------------------------------------------------------
           var quantity_available_for_trade_value;
           quantity_available_for_trade_value = quantity_available_for_trade(
               bi2c_sorted.sell_quantity, bit_z_com_sorted.buy_quantity);
@@ -406,6 +409,30 @@ function run_in_loop_wrapper() {           //  create a loop function
           };
           require('./custom_moduls/store_data.js')(
               params_of_examine_to_store);
+
+
+          //------------------------------------------------------------------------------------
+          //      buy_form:  Bit2c.co.il -> sell in Bit-z.com
+          //------------------------------------------------------------------------------------
+
+          var quantity_available_for_trade_value_other_why = quantity_available_for_trade(
+              bit_z_com_sorted.sell_quantity ,  bi2c_sorted.buy_quantity);
+          var margin_in_the_same_coin_value_other_why = margin_in_the_same_coin( buy__BTG__in_BI2C_sell_in_BIT_Z_COM ,quantity_available_for_trade_value_other_why);
+
+          var params_of_examine_to_store = {
+            coin: 'BTG',
+            buy_form: 'bit2c.co.il',
+            sell_in: 'Bit-z.com',
+            quantity: quantity_available_for_trade_value_other_why,
+            profit: margin_in_the_same_coin_value_other_why,
+          };
+
+          DEBUG && console.log('params_of_examine_to_store: '.red ,
+              params_of_examine_to_store);
+          require('./custom_moduls/store_data.js')( params_of_examine_to_store);
+
+
+
 
           // start send
           if (buy__BTG__in_Bit_z_com__sell_in_Bi2c_price_margin > 0) {
@@ -460,21 +487,7 @@ function run_in_loop_wrapper() {           //  create a loop function
           } else {
             console.log('ok, this is minus margin - we are out of this loop  ');
             DEBUG && console.log(' ');
-            var quantity_available_for_trade_value_other_why = quantity_available_for_trade(
-                bit_z_com_sorted.sell_quantity ,  bi2c_sorted.buy_quantity);
-            var margin_in_the_same_coin_value_other_why = margin_in_the_same_coin( buy__BTG__in_BI2C_sell_in_BIT_Z_COM ,quantity_available_for_trade_value_other_why);
 
-            var params_of_examine_to_store = {
-              coin: 'BTG',
-              buy_form: 'bit2c.co.il',
-              sell_in: 'Bit-z.com',
-              quantity: quantity_available_for_trade_value_other_why,
-              profit: margin_in_the_same_coin_value_other_why,
-            };
-
-            DEBUG && console.log('params_of_examine_to_store: '.red ,
-                params_of_examine_to_store);
-                require('./custom_moduls/store_data.js')( params_of_examine_to_store);
             /*
                       var buy__BTG__in_BI2C_sell_in_BIT_Z_COM = bit_z_com_sorted.u_can_sell_BTG_in_Bit_z_com - bi2c_sorted.u_can_buy_BTG_in_BI2C_for_BTC;
                       DEBUG && console.log('buy__BTG__in_BI2C_sell_in_BIT_Z_COM: '.info, buy__BTG__in_BI2C_sell_in_BIT_Z_COM);
@@ -487,14 +500,14 @@ function run_in_loop_wrapper() {           //  create a loop function
                           'buy__BTG__in_BI2C_sell_in_BIT_Z_COM - margin in NIS: '
                       );*/
 
-            break;
+            //break;
           }
 
         };
 
         DEBUG && console.log('  ');
-        DEBUG && console.log('...done'.info);
-
+        DEBUG && console.log('done...'.info);
+        DEBUG && console.log('  ');
       }); // end
   if(run_in_loop){
     setTimeout(run_in_loop_wrapper, delay_in_milliseconds);
