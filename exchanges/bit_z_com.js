@@ -7,8 +7,11 @@ module.exports = function bit_z_com_sorted(bit_z_com_BTG_BTC_depth, coin,
                                            action_i,normalize_Bit_z_com) {
   DEBUG && console.log('in bit_z_com_sorted'.info);
   var Big = require('big.js');
-  var trad_fee = 0.999 ;
-  var withdraw_fee = 0.995 ;
+  var buy_trad_fee = 1.001 ; // 0.01%
+  var buy_withdraw_fee = 1.005 ; // 0.05%
+
+  var sell_trad_fee = 0.999 ; // 0.01%
+  var sell_withdraw_fee = 0.995 ; // 0.05%
 
   var bit_z_com_sorted = {
     u_can_sell_BTG_in_Bit_z_com: null,
@@ -18,7 +21,7 @@ module.exports = function bit_z_com_sorted(bit_z_com_BTG_BTC_depth, coin,
   };
 
 
-
+  // quantity
   bit_z_com_sorted.buy_quantity = parseFloat(bit_z_com_BTG_BTC_depth.data.asks[action_i][1]);
   bit_z_com_sorted.sell_quantity = parseFloat(bit_z_com_BTG_BTC_depth.data.bids[action_i][1]);
 
@@ -29,7 +32,22 @@ module.exports = function bit_z_com_sorted(bit_z_com_BTG_BTC_depth, coin,
 
  // bit_z_com_sorted.u_can_sell_BTG_in_Bit_z_com = (bit_z_com_BTG_BTC_depth.data.bids[action_i][0] * 0.999) * 0.995;
 
-  bit_z_com_sorted.u_can_sell_BTG_in_Bit_z_com = normalize_Bit_z_com(bit_z_com_BTG_BTC_depth.data.bids[action_i][0],0.999,0.995);
+  // price
+  // buy
+  // 10 + 0.01% = 10.01 -> withdraw:  10.01  +  0.05% = total price to buy BTG in bit-z.com
+  bit_z_com_sorted.u_can_buy_BTG_in_Bit_z_com = normalize_Bit_z_com(
+      bit_z_com_BTG_BTC_depth.data.asks[action_i][0] ,
+      buy_trad_fee ,
+      buy_withdraw_fee
+  );
+
+  // sell
+  // 10 - 0.01% = 99.99 -> withdraw: 99.99 - 0.05% = total price to sell BTG in bit-z.com
+  bit_z_com_sorted.u_can_sell_BTG_in_Bit_z_com = normalize_Bit_z_com(
+      bit_z_com_BTG_BTC_depth.data.bids[action_i][0],
+      sell_trad_fee,
+      sell_withdraw_fee
+  );
 
       // DEBUG && console.log('u_can_sell_BTG_in_Bit_z_com'.info, bit_z_com_sorted);
  // DEBUG && console.log('bit_z_com_BTG_BTC_depth.data.asks',bit_z_com_BTG_BTC_depth.data.asks);
@@ -38,7 +56,7 @@ module.exports = function bit_z_com_sorted(bit_z_com_BTG_BTC_depth, coin,
  //  var gg = sss.reverse();
 //   DEBUG && console.log('asks after sort',gg);
  // DEBUG && console.log('bit_z_com_BTG_BTC_depth.data.asks[action_i][0]', bit_z_com_BTG_BTC_depth.data.asks[action_i][0]);
-  bit_z_com_sorted.u_can_buy_BTG_in_Bit_z_com = normalize_Bit_z_com(bit_z_com_BTG_BTC_depth.data.asks[action_i][0] ,1.001 , 1.005);
+
 
 
 

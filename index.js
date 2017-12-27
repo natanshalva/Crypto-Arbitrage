@@ -317,8 +317,7 @@ function run_in_loop_wrapper() {           //  create a loop function
           // ---////////////////////////////////////////
 
           var after_trade_fee = b_coin_value.times(b_trade_fee) ; // trade fee
-          DEBUG && console.log('b_w_fee: '.info ,parseFloat(b_w_fee));
-
+          DEBUG && console.log('after_trade_fee: '.info ,parseFloat(b_w_fee));
 
           var after_withdraw_fee = after_trade_fee.times(b_withdraw_fee.toFixed(8)); // withdraw
           DEBUG && console.log('after_withdraw_fee: '.info ,parseFloat(after_withdraw_fee));
