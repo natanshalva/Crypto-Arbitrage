@@ -1,10 +1,11 @@
 /node_modules
-/bit2c__bit_z/btg/node_modules
+/btg/node_modules
+
 /bit2c__bit_z/bch/node_modules
 /bit2c__bit_z/btc/node_modules
 /bit2c__bit_z/ltc/node_modules
 
-/abucoins/node_modules
+/abucoins//node_modules
 
 /public/storage
 /vendor
