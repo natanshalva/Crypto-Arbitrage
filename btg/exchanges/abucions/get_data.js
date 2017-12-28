@@ -1,4 +1,4 @@
-console.log('Arber is runing ... test file');
+console.log('ssss');
 
 // var bit2c = require('bit2c');
 /*
@@ -86,7 +86,8 @@ rp(options).then(function(da) {
 
   orders.then((list) => {
     console.log(list);
+
   });
 
 };
-module.exports  = wrap();
+wrap();
