@@ -82,7 +82,7 @@ class Abucoins {
 }
 
 let abucoins = new Abucoins();
-let orders = abucoins.signAndRequest('GET', `/products/BTG-BTC/book?level=1`);
+let orders = abucoins.signAndRequest('GET', `/products/LTC-BTC/book?level=1`);
 
 orders.then((list) => {
    console.log(list);
