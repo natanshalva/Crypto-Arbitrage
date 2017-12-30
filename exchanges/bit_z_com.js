@@ -6,7 +6,7 @@
 module.exports = function bit_z_com_sorted(bit_z_com_depth, coin,
                                            action_i,normalize_Bit_z_com) {
   DEBUG && console.log('in bit_z_com_sorted'.info);
-  var Big = require('big.js');
+ // var Big = require('big.js');
   // ------------------------------------------------
   //    fees
   // ------------------------------------------------

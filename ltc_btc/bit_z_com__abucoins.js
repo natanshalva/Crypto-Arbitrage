@@ -344,11 +344,11 @@ function run_in_loop_wrapper() {           //  create a loop function
           //    Abucoins
           //------------------------------------------------------------
 
-          var abucoin_sorted = require('./exchanges/abucions/normalize.js')(
+          var abucoin_sorted = require('../exchanges/abucions/normalize.js')(
               Abucoins_order_book, coin_name, i, standard_normalized_full_cycle);
 
 
-          var bit_z_com_sorted = require('./exchanges/bit_z_com.js')(
+          var bit_z_com_sorted = require('../exchanges/bit_z_com.js')(
               bit_z_com_depth, coin_name, i, standard_normalized_full_cycle);
           // ********************************************************************************
           //var string_sell_quantity = new Big(  bit_z_com_depth.data.bids[action_i][1]);

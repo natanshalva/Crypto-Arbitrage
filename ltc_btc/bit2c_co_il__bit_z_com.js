@@ -1,5 +1,8 @@
+
 // DEBUG = false;
 DEBUG = true;
+
+console.log('Arber is runing ...');
 
 var coin_name = 'BTG';
 var pair_coin = 'BTC' ;
@@ -35,15 +38,16 @@ var Log = require('log')
 log.info('start run');
 */
 
+
 var async = require('async');
 var bit2c = require('bit2c');
 var Big = require('big.js');
-var helper_functions = require('./custom_moduls/helper_functions.js')(Big,colour);
+var helper_functions = require('../common/helper_functions.js')(Big,colour);
 
+var normalize_Bi2c = require('../normelize/bit2c_co_il.js')(Big,colour);
+var normalize_Bit_z_com = require('../normelize/bit_z_com.js')(Big,colour);
 
-
-
-console.log('Arber is runing ...'.info);
+DEBUG && console.log('finish lode and start loop');
 
 function run_in_loop_wrapper() {           //  create a loop function
 
@@ -192,105 +196,8 @@ function run_in_loop_wrapper() {           //  create a loop function
         }*/
 
 
-        function normalize_Bi2c(coin_value, trade_fee, bit2c_co_il_NIS_BTC) {
-          DEBUG && console.log(' '.info );
-          DEBUG && console.log('in normalize_Bi2c'.info );
-          // http://mikemcl.github.io/big.js/
-
-          // trade
-          // sell BTG -> NIS  = 0.05%
-
-          // withdraw
-          // Buy NIS -> BTG  = 0.05%
-          // add - withdrow fee : BTG 0.0001
-          // add - buy BTC in Bit-z fee  : 0.999
-
-          // convert to Big
-          var b_coin_value = new Big(coin_value);
-          DEBUG && console.log('coin_value: '.info ,parseFloat(b_coin_value ));
-
-          var b_trade_fee = new Big(trade_fee);
-          DEBUG && console.log('b_trade_fee: '.info ,parseFloat(b_trade_fee));
-
-          var b_bitcoin_price = new Big(bit2c_co_il_NIS_BTC.h);
-          DEBUG && console.log('b_bitcoin_price: '.info ,parseFloat(b_bitcoin_price));
-
-          var b_buy_Other_coin_fee = new Big(0.995);
-          DEBUG && console.log('b_buy_Other_coin_fee: '.info ,parseFloat(b_buy_Other_coin_fee));
-
-          var b_BTG_withdraw_fee = new Big(0.0001);
-          DEBUG && console.log('b_BTG_withdraw_fee : '.info ,parseFloat(b_BTG_withdraw_fee));
 
 
-
-          var b_withdraw_fee_in_BTC =  ( b_BTG_withdraw_fee * b_coin_value)  / b_bitcoin_price ; // withdrow fee : BTG 0.0001
-          DEBUG && console.log('b_withdraw_fee_in_BTC: '.info ,parseFloat(b_withdraw_fee_in_BTC));
-
-          var b_buy_BTC_in_Bit_z_com = new Big(0.999);
-          DEBUG && console.log('b_buy_BTC_in_Bit_z_com: '.info ,parseFloat(b_buy_BTC_in_Bit_z_com));
-          // ----------------------------------------------------------------
-          // start calculation
-          // ----------------------------------------------------------------
-
-          var coin_value_after_trade_fee =  (b_coin_value.times(b_trade_fee)); //sell/buy  coin * fee
-          DEBUG && console.log('sell/buy  coin * fee: '.info ,parseFloat(coin_value_after_trade_fee));
-
-          var value_in_BTC = coin_value_after_trade_fee.div(b_bitcoin_price); // NIS / bitcoin price
-          DEBUG && console.log('NIS / bitcoin price: '.info ,parseFloat(value_in_BTC));
-
-          var value_after_buy_other_coin = value_in_BTC.times(b_buy_Other_coin_fee); // buy Other coin to transfer the money out the exchange
-          DEBUG && console.log('buy Other coin to transfer the money out the exchange: '.info ,parseFloat(value_after_buy_other_coin));
-
-          var value_minus_withdraw_fee = value_after_buy_other_coin.minus(b_withdraw_fee_in_BTC); // withdraw fee
-          //  var value_minus_withdraw_fee = value_after_buy_other_coin; // withdraw fee
-          DEBUG && console.log('withdraw fee: '.info ,parseFloat(value_minus_withdraw_fee));
-
-          var b = value_minus_withdraw_fee.times(b_buy_BTC_in_Bit_z_com);//  add - buy BTC in Bit-z.com fee  : 0.999
-          DEBUG && console.log('after withdarw - buy BTC in Bit-z.com fee  : 0.999: '.info , (value_minus_withdraw_fee).toFixed(8));
-
-
-          // transfer Other coin fee not included ~ 0.0001 ;
-
-          var re =  parseFloat(b);
-
-          DEBUG && console.log('calculte the coin * fee / bitcoin price in NIS: '.info,re);
-          return re  ;
-        }
-
-        function normalize_Bit_z_com(coin_value, trade_fee, withdraw_fee ) {
-          // http://mikemcl.github.io/big.js/
-
-          // sell BTG -> BTC  = 0.01%
-          //  withdraw fee : 0.05% ( for BTC and for BTG )
-
-          //  var trad_fee = 0.999 ;
-          //  var withdraw_fee = 0.995 ;
-
-
-          DEBUG && console.log('in normalize_Bit_z_com'.info );
-
-          var b_coin_value = new Big(coin_value);
-          DEBUG && console.log('b_coin_value: '.info ,parseFloat(b_coin_value ));
-
-          var b_trade_fee = new Big(trade_fee);
-          DEBUG && console.log('b_trade_fee: '.info ,parseFloat(b_trade_fee ));
-
-          var b_withdraw_fee = new Big(withdraw_fee);
-          DEBUG && console.log('b_withdraw_fee : '.info ,parseFloat(b_withdraw_fee ));
-
-          // ---////////////////////////////////////////
-
-          var after_trade_fee = b_coin_value.times(b_trade_fee) ; // trade fee
-          DEBUG && console.log('after_trade_fee: '.info ,parseFloat(after_trade_fee));
-
-          var after_withdraw_fee = after_trade_fee.times(b_withdraw_fee); // withdraw
-          DEBUG && console.log('after_withdraw_fee: '.info ,parseFloat(after_withdraw_fee));
-
-          var re =  parseFloat(after_withdraw_fee);
-
-          DEBUG && console.log('(calculte the coin * fee ) * withdraw_fee : '.info,re);
-          return re  ;
-        }
 
         //  for (var i = 0; i < orders_to_inspect.length; i++) {
 
@@ -306,13 +213,13 @@ function run_in_loop_wrapper() {           //  create a loop function
           DEBUG && console.log('bit2c_co_il_order_book.asks : '.info, orders_to_inspect[i]);
 
 
-          var exchange_a = require('./exchanges/bit2c_co_il.js')(
+          var exchange_a = require('../exchanges/bit2c_co_il.js')(
               bit2c_co_il_NIS_BTC, bit2c_co_il_order_book, coin_name, i, normalize_Bi2c);
 
           // ********************************************************************************
           //var string_sell_quantity = new Big(  bit_z_com_depth.data.bids[action_i][1]);
 
-          var exchange_b = require('./exchanges/bit_z_com.js')(
+          var exchange_b = require('../exchanges/bit_z_com.js')(
               bit_z_com_depth, coin_name, i, normalize_Bit_z_com);
 
           // ********************************************************************************
