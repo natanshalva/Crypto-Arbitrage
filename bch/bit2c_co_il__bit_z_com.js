@@ -2,12 +2,11 @@
 DEBUG = true;
 
 var coin_name = 'BTG';
- var STORE_NEGATIVE_RESOLES = false ;
-// var STORE_NEGATIVE_RESOLES = true ;
+var STORE_NEGATIVE_RESOLES = false ;
 
 // var run_in_loop = false;
 var run_in_loop = true;
-var delay_in_milliseconds = 10000;
+var delay_in_milliseconds = 30000;
 
 var colour = require('colour');
 colour.setTheme({
@@ -32,16 +31,12 @@ var Log = require('log')
 
 log.info('start run');
 */
-var path = require('path');
-var scriptName = path.basename(__filename);
-
-console.log('Arber is running - '+scriptName.info);
-
 
 var async = require('async');
 var bit2c = require('bit2c');
 var Big = require('big.js');
 
+console.log('Arber is runing ...'.info);
 
 function run_in_loop_wrapper() {           //  create a loop function
 
@@ -71,70 +66,14 @@ function run_in_loop_wrapper() {           //  create a loop function
           });
         }, function(callback) {
           //  callback(null,1);
-
-       //   var gg = require('./exchanges/abucions/get_data.js');
-
-
-          const rp = require('request-promise');
-          const crypto = require('crypto');
-
-          const TIMEOUT = 5000;
-
-          class Abucoins {
-            constructor() {
-              this.endpoint = 'https://api.abucoins.com';
-              this.credentials = {
-                key: '10513875-XZAEVTFUOK87G6192P3NYMDWSB05CHRJ',
-                secret: 'LzRSRE13SnJXcCV0SV0xS0YpfTc9NXghWUIwKkUiPnw2PzwsT2BffkAmaFU5UUNn',
-                passphrase: 'ij5tgkjdb',
-              }
-            }
-
-            _jsonRequest(options) {
-              options.timeout = TIMEOUT;
-              options.json = true;
-
-              return rp(options);
-            }
-
-            _getHeaders(sign, timestamp) {
-              return {
-                'AC-ACCESS-KEY': this.credentials.key,
-                'AC-ACCESS-SIGN': sign,
-                'AC-ACCESS-TIMESTAMP': timestamp,
-                'AC-ACCESS-PASSPHRASE': this.credentials.passphrase,
-              };
-            }
-
-            signAndRequest(method, path, body = {}) {
-              const timestamp = Math.floor(new Date() / 1000);
-              let options = {
-                uri: `${this.endpoint}${path}`, method: method, body: body,
-              };
-              let string = timestamp + method + path;
-              if (Object.keys(body).length > 0) {
-                string += JSON.stringify(body);
-              }
-              const sign = crypto.createHmac('sha256',
-                  Buffer.from(this.credentials.secret, 'base64')).
-                  update(string).
-                  digest('base64');
-              options.headers = this._getHeaders(sign, timestamp);
-
-              return this._jsonRequest(options);
-            }
-          }
-
-          let abucoins = new Abucoins();
-          let orders = abucoins.signAndRequest('GET', `/products/LTC-BTC/book?level=1`);
-
-          orders.then((list) => {
-           // console.log(list);
-            callback(null, list );
-
+          bit2c.getOrderBook('BtgNis', function(error, getOrderBook) {
+            callback(null, getOrderBook);
           });
-
-
+        }, function(callback) {
+          // callback(null,1);
+          bit2c.getTicker('BtcNis', function(error, ticker) {
+            callback(null, ticker);
+          });
         },
       ], // optional callback
       function(err, results) {
@@ -145,14 +84,33 @@ function run_in_loop_wrapper() {           //  create a loop function
         var   bit_z_com_depth = results[0];
         bit_z_com_depth.data.asks =   bit_z_com_depth.data.asks.reverse();
         // var gg = sss.reverse();
-          DEBUG && console.log('bit_z_com_BTC_BTG: '.info, bit_z_com_depth.data.asks);
+        //  DEBUG && console.log('bit_z_com_BTC_BTG: '.info, bit_z_com_depth.data.asks);
 
-        var Abucoins_order_book = results[1];
-          DEBUG && console.log('Abucoins_order_book: ', Abucoins_order_book);
+        var bit2c_co_il_order_book = results[1];
+        //  DEBUG && console.log('bit2c_co_il_order_book: ', bit2c_co_il_order_book);
 
-      
+        var bit2c_co_il_NIS_BTC = results[2];
+        //  console.log('bit2c_co_il_NIS_BTC: '.info, bit2c_co_il_NIS_BTC);
 
 
+
+// function doStuff() {
+
+// var async = require('async');
+//  bit2c = require('bit2c');
+
+// var bit_z_com = require('./exchanges/bit_z_com');
+// DEBUG && console.log(bit_z_com);
+
+//  var asdf = require('./exchanges/bit2c_co_il');
+        //  console.log('ssssssssssss');
+
+// the results array will equal ['one','two'] even though
+// the second function had a shorter timeout.
+
+//   DEBUG && console.log('results'.info, results);
+
+// var bit_z_com_BTG_BTC = results[0];
 
 //&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
         // demo numbers !!!
@@ -172,8 +130,8 @@ function run_in_loop_wrapper() {           //  create a loop function
              DEBUG && console.log('bit_z_com_BTC_BTG: '.info, bit_z_com_BTG_BTC);
        */
 
-        // var Abucoins_order_book = results[1];
-        /*             var Abucoins_order_book = {
+        // var bit2c_co_il_order_book = results[1];
+        /*             var bit2c_co_il_order_book = {
                        asks: [
                          [
                            1, 4.0000000, 1514008359,
@@ -193,8 +151,8 @@ function run_in_loop_wrapper() {           //  create a loop function
                        ]
                      };
 
-                     DEBUG && console.log('Abucoins_order_book: ',
-                         Abucoins_order_book);*/
+                     DEBUG && console.log('bit2c_co_il_order_book: ',
+                         bit2c_co_il_order_book);*/
 
         // var bit2c_co_il_NIS_BTC = results[2];
         /*             var bit2c_co_il_NIS_BTC = {
@@ -204,10 +162,18 @@ function run_in_loop_wrapper() {           //  create a loop function
                      console.log('bit2c_co_il_NIS_BTC: '.info, bit2c_co_il_NIS_BTC);*/
 
 //&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-        
-        var orders_to_inspect = Abucoins_order_book.asks;
 
+        var total_quantity_BTG = 0;
+        var total_profit = 0;
 
+// the heights buy price of BTC with NIS in Bit2c
+        var reference_point_BTC_v_r_i_NIS = bit2c_co_il_NIS_BTC.h;
+
+        var orders_to_inspect = bit2c_co_il_order_book.asks;
+
+        //  var USD_NIS = 3.49;
+
+// start check with
         //--------------------------------------------------------
         //          functions
         //--------------------------------------------------------
@@ -273,8 +239,72 @@ function run_in_loop_wrapper() {           //  create a loop function
         }
 
 
-     
-        function standard_normalized_full_cycle(coin_value, trade_fee, withdraw_fee ) {
+        function normalize_Bi2c(coin_value, trade_fee, bit2c_co_il_NIS_BTC) {
+          DEBUG && console.log(' '.info );
+          DEBUG && console.log('in normalize_Bi2c'.info );
+          // http://mikemcl.github.io/big.js/
+
+          // trade
+          // sell BTG -> NIS  = 0.05%
+
+          // withdraw
+          // Buy NIS -> BTG  = 0.05%
+          // add - withdrow fee : BTG 0.0001
+          // add - buy BTC in Bit-z fee  : 0.999
+
+          // convert to Big
+          var b_coin_value = new Big(coin_value);
+          DEBUG && console.log('coin_value: '.info ,parseFloat(b_coin_value ));
+
+          var b_trade_fee = new Big(trade_fee);
+          DEBUG && console.log('b_trade_fee: '.info ,parseFloat(b_trade_fee));
+
+          var b_bitcoin_price = new Big(bit2c_co_il_NIS_BTC.h);
+          DEBUG && console.log('b_bitcoin_price: '.info ,parseFloat(b_bitcoin_price));
+
+          var b_buy_Other_coin_fee = new Big(0.995);
+          DEBUG && console.log('b_buy_Other_coin_fee: '.info ,parseFloat(b_buy_Other_coin_fee));
+
+          var b_BTG_withdraw_fee = new Big(0.0001);
+          DEBUG && console.log('b_BTG_withdraw_fee : '.info ,parseFloat(b_BTG_withdraw_fee));
+
+
+
+          var b_withdraw_fee_in_BTC =  ( b_BTG_withdraw_fee * b_coin_value)  / b_bitcoin_price ; // withdrow fee : BTG 0.0001
+          DEBUG && console.log('b_withdraw_fee_in_BTC: '.info ,parseFloat(b_withdraw_fee_in_BTC));
+
+          var b_buy_BTC_in_Bit_z_com = new Big(0.999);
+          DEBUG && console.log('b_buy_BTC_in_Bit_z_com: '.info ,parseFloat(b_buy_BTC_in_Bit_z_com));
+          // ----------------------------------------------------------------
+          // start calculation
+          // ----------------------------------------------------------------
+
+          var coin_value_after_trade_fee =  (b_coin_value.times(b_trade_fee)); //sell/buy  coin * fee
+          DEBUG && console.log('sell/buy  coin * fee: '.info ,parseFloat(coin_value_after_trade_fee));
+
+          var value_in_BTC = coin_value_after_trade_fee.div(b_bitcoin_price); // NIS / bitcoin price
+          DEBUG && console.log('NIS / bitcoin price: '.info ,parseFloat(value_in_BTC));
+
+          var value_after_buy_other_coin = value_in_BTC.times(b_buy_Other_coin_fee); // buy Other coin to transfer the money out the exchange
+          DEBUG && console.log('buy Other coin to transfer the money out the exchange: '.info ,parseFloat(value_after_buy_other_coin));
+
+          var value_minus_withdraw_fee = value_after_buy_other_coin.minus(b_withdraw_fee_in_BTC); // withdraw fee
+          //  var value_minus_withdraw_fee = value_after_buy_other_coin; // withdraw fee
+          DEBUG && console.log('withdraw fee: '.info ,parseFloat(value_minus_withdraw_fee));
+
+          var b = value_minus_withdraw_fee.times(b_buy_BTC_in_Bit_z_com);//  add - buy BTC in Bit-z.com fee  : 0.999
+          DEBUG && console.log('after withdarw - buy BTC in Bit-z.com fee  : 0.999: '.info ,value_minus_withdraw_fee);
+
+
+          // transfer Other coin fee not included ~ 0.0001 ;
+
+          var re =  parseFloat(b);
+
+          DEBUG && console.log('calculte the coin * fee / bitcoin price in NIS: '.info,re);
+          return re  ;
+        }
+
+        function normalize_Bit_z_com(coin_value, trade_fee, withdraw_fee ) {
           // http://mikemcl.github.io/big.js/
 
           // sell BTG -> BTC  = 0.01%
@@ -284,7 +314,7 @@ function run_in_loop_wrapper() {           //  create a loop function
           //  var withdraw_fee = 0.995 ;
 
 
-          DEBUG && console.log('in standard_normalized_full_cycle'.info );
+          DEBUG && console.log('in normalize_Bit_z_com'.info );
 
           var b_coin_value = new Big(coin_value);
           DEBUG && console.log('b_coin_value: '.info ,parseFloat(b_coin_value ));
@@ -317,8 +347,8 @@ function run_in_loop_wrapper() {           //  create a loop function
           console.log('                 start scale                            '.red);
           console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@'.info);
           console.log('                                                         '.info);
-          DEBUG && console.log('Start sort number:'.info, i);
-          DEBUG && console.log('Abucoins_order_book.asks : '.info, orders_to_inspect[i]);
+          DEBUG && console.log('Start sort bit2c asks number:'.info, i);
+          DEBUG && console.log('bit2c_co_il_order_book.asks : '.info, orders_to_inspect[i]);
 
           var coin_we_want_to_tread = null;
           var place_we_want_to_buy = null;
@@ -327,10 +357,10 @@ function run_in_loop_wrapper() {           //  create a loop function
 
           /*
                   // if the amaut to sell in the first row is higher then the limit...
-                  if( ((total_quantity_BTG  + value[1]) * Abucoins_order_book.bids[i][0] ) >  quantity_trade_limit_in_NIS){
+                  if( ((total_quantity_BTG  + value[1]) * bit2c_co_il_order_book.bids[i][0] ) >  quantity_trade_limit_in_NIS){
                     DEBUG && console.log('the quantity of this row is: '.info, value[1]);
-                    var aaaa  = quantity_trade_limit_in_NIS - (total_quantity_BTG * Abucoins_order_book.bids[i][0]);
-                    value[1] = aaaa /  Abucoins_order_book.bids[i][0] ;
+                    var aaaa  = quantity_trade_limit_in_NIS - (total_quantity_BTG * bit2c_co_il_order_book.bids[i][0]);
+                    value[1] = aaaa /  bit2c_co_il_order_book.bids[i][0] ;
                     DEBUG && console.log('the quantity of this row is--- after trim to stand in the limit: '.green, value[1]);
 
                   }*/
@@ -340,18 +370,17 @@ function run_in_loop_wrapper() {           //  create a loop function
                 throw BreakException;
               }*/
           //------------------------------------------------------------
-          //    Abucoins
+          //    Bi2c
           //------------------------------------------------------------
 
-          var abucoin_sorted = require('./exchanges/abucions/normalize.js')(
-              Abucoins_order_book, coin_name, i, standard_normalized_full_cycle);
+          var bi2c_sorted = require('./exchanges/bit2c_co_il.js')(
+              bit2c_co_il_NIS_BTC, bit2c_co_il_order_book, coin_name, i, normalize_Bi2c);
 
-
-          var bit_z_com_sorted = require('./exchanges/bit_z_com.js')(
-              bit_z_com_depth, coin_name, i, standard_normalized_full_cycle);
           // ********************************************************************************
           //var string_sell_quantity = new Big(  bit_z_com_depth.data.bids[action_i][1]);
-         // DEBUG && console.log('ssss');
+
+          var bit_z_com_sorted = require('./exchanges/bit_z_com.js')(
+              bit_z_com_depth, coin_name, i, normalize_Bit_z_com);
 
           // ********************************************************************************
           //        finely calculation
@@ -359,13 +388,13 @@ function run_in_loop_wrapper() {           //  create a loop function
           DEBUG && console.log(' ');
           DEBUG && console.log('start calculation'.info);
 
-          var buy_in_Bit_z_com__sell_in_Abucoin_price_margin = abucoin_sorted.u_can_sell -
+          var buy_in_Bit_z_com__sell_in_Bi2c_price_margin = bi2c_sorted.u_can_sell_in_bi2c_for_BTC -
               bit_z_com_sorted.u_can_buy_in_Bit_z_com;
 
-          DEBUG && console.log('buy_in_Bit_z_com__sell_in_Bi2c: '.info, buy_in_Bit_z_com__sell_in_Abucoin_price_margin);
+          DEBUG && console.log('buy_in_Bit_z_com__sell_in_Bi2c: '.info, buy_in_Bit_z_com__sell_in_Bi2c_price_margin);
 
-          var buy_in_Abucoins_sell_in_BIT_Z_COM = bit_z_com_sorted.u_can_sell_in_Bit_z_com - abucoin_sorted.u_can_buy;
-          DEBUG && console.log('buy_in_Abucoins_sell_in_BIT_Z_COM: '.info, buy_in_Abucoins_sell_in_BIT_Z_COM);
+          var buy_in_BI2C_sell_in_BIT_Z_COM = bit_z_com_sorted.u_can_sell_in_Bit_z_com - bi2c_sorted.u_can_buy_in_BI2C_for_BTC;
+          DEBUG && console.log('buy_in_BI2C_sell_in_BIT_Z_COM'.info, buy_in_BI2C_sell_in_BIT_Z_COM);
           //------------------------------------------------------------------------------------
 
           //------------------------------------------------------------------------------------
@@ -373,16 +402,19 @@ function run_in_loop_wrapper() {           //  create a loop function
           //------------------------------------------------------------------------------------
           var quantity_available_for_trade_value;
           quantity_available_for_trade_value = quantity_available_for_trade(
-              abucoin_sorted.sell_quantity, bit_z_com_sorted.buy_quantity);
+              bi2c_sorted.sell_quantity, bit_z_com_sorted.buy_quantity);
 
+          var margin_in_NIS = print_margin_in_NIS(
+              buy_in_Bit_z_com__sell_in_Bi2c_price_margin,
+              quantity_available_for_trade_value,
+              'buy_in_Bit_z_com__sell_in_Bi2c - margin in NIS: ');
 
-
-          var margin_in_the_same_coin_value = margin_in_the_same_coin( buy_in_Bit_z_com__sell_in_Abucoin_price_margin ,quantity_available_for_trade_value);
+          var margin_in_the_same_coin_value = margin_in_the_same_coin( buy_in_Bit_z_com__sell_in_Bi2c_price_margin ,quantity_available_for_trade_value);
 
           var params_of_examine_to_store = {
             coin: coin_name ,
             buy_form: 'Bit-z.com',
-            sell_in: 'abucoins.com',
+            sell_in: 'bit2c.co.il',
             quantity: quantity_available_for_trade_value,
             profit: margin_in_the_same_coin_value,
           };
@@ -395,12 +427,12 @@ function run_in_loop_wrapper() {           //  create a loop function
           //------------------------------------------------------------------------------------
 
           var quantity_available_for_trade_value_other_why = quantity_available_for_trade(
-              bit_z_com_sorted.sell_quantity ,  abucoin_sorted.buy_quantity);
-          var margin_in_the_same_coin_value_other_why = margin_in_the_same_coin( buy_in_Abucoins_sell_in_BIT_Z_COM ,quantity_available_for_trade_value_other_why);
+              bit_z_com_sorted.sell_quantity ,  bi2c_sorted.buy_quantity);
+          var margin_in_the_same_coin_value_other_why = margin_in_the_same_coin( buy_in_BI2C_sell_in_BIT_Z_COM ,quantity_available_for_trade_value_other_why);
 
           var params_of_examine_to_store = {
             coin: coin_name ,
-            buy_form: 'abucoins.com',
+            buy_form: 'bit2c.co.il',
             sell_in: 'Bit-z.com',
             quantity: quantity_available_for_trade_value_other_why,
             profit: margin_in_the_same_coin_value_other_why,

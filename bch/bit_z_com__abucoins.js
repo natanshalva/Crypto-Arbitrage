@@ -1,13 +1,13 @@
 // DEBUG = false;
 DEBUG = true;
 
-var coin_name = 'BTG';
+var coin_name = 'BCH';
  var STORE_NEGATIVE_RESOLES = false ;
 // var STORE_NEGATIVE_RESOLES = true ;
 
 // var run_in_loop = false;
 var run_in_loop = true;
-var delay_in_milliseconds = 10000;
+var delay_in_milliseconds = 5000;
 
 var colour = require('colour');
 colour.setTheme({
@@ -57,7 +57,7 @@ function run_in_loop_wrapper() {           //  create a loop function
 
           var options = {
             //  uri: 'https://www.bit-z.com/api_v1/ticker?coin=btg_btc',
-            uri: 'https://www.bit-z.com/api_v1/depth?coin=btg_btc', qs: {
+            uri: 'https://www.bit-z.com/api_v1/depth?coin=bch_btc', qs: {
               //   access_token: 'xxxxx xxxxx' // -> uri + '?access_token=xxxxx%20xxxxx'
             }, headers: {
               'User-Agent': 'Request-Promise',
@@ -126,7 +126,7 @@ function run_in_loop_wrapper() {           //  create a loop function
           }
 
           let abucoins = new Abucoins();
-          let orders = abucoins.signAndRequest('GET', `/products/LTC-BTC/book?level=1`);
+          let orders = abucoins.signAndRequest('GET', `/products/BCH-BTC/book?level=1`);
 
           orders.then((list) => {
            // console.log(list);

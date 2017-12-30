@@ -1,5 +1,7 @@
 /node_modules
 /btg/node_modules
+/bch/node_modules
+/*/node_modules
 
 /bit2c__bit_z/bch/node_modules
 /bit2c__bit_z/btc/node_modules
