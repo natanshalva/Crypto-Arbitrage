@@ -18,6 +18,7 @@ module.exports = function bit_z_com_sorted(bit_z_com_depth, coin,
 
 
   var bit_z_com_sorted = {
+    exchange_site: 'bit-z.com',
     u_can_sell_in_Bit_z_com: null,
     u_can_buy_in_Bit_z_com: null,
     buy_quantity: null,

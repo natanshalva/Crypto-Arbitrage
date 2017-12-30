@@ -1,7 +1,8 @@
 // DEBUG = false;
 DEBUG = true;
 
-var coin_name = 'BCH';
+var coin_name = 'LTC';
+var pair_name = 'BTC';
  var STORE_NEGATIVE_RESOLES = false ;
 // var STORE_NEGATIVE_RESOLES = true ;
 
@@ -57,7 +58,7 @@ function run_in_loop_wrapper() {           //  create a loop function
 
           var options = {
             //  uri: 'https://www.bit-z.com/api_v1/ticker?coin=btg_btc',
-            uri: 'https://www.bit-z.com/api_v1/depth?coin=bch_btc', qs: {
+            uri: 'https://www.bit-z.com/api_v1/depth?coin=ltc_btc', qs: {
               //   access_token: 'xxxxx xxxxx' // -> uri + '?access_token=xxxxx%20xxxxx'
             }, headers: {
               'User-Agent': 'Request-Promise',
@@ -126,7 +127,7 @@ function run_in_loop_wrapper() {           //  create a loop function
           }
 
           let abucoins = new Abucoins();
-          let orders = abucoins.signAndRequest('GET', `/products/BCH-BTC/book?level=1`);
+          let orders = abucoins.signAndRequest('GET', `/products/LTC-BTC/book?level=1`);
 
           orders.then((list) => {
            // console.log(list);
@@ -381,6 +382,7 @@ function run_in_loop_wrapper() {           //  create a loop function
 
           var params_of_examine_to_store = {
             coin: coin_name ,
+            pair_name: pair_name,
             buy_form: 'Bit-z.com',
             sell_in: 'abucoins.com',
             quantity: quantity_available_for_trade_value,
@@ -400,6 +402,7 @@ function run_in_loop_wrapper() {           //  create a loop function
 
           var params_of_examine_to_store = {
             coin: coin_name ,
+            pair_name: pair_name,
             buy_form: 'abucoins.com',
             sell_in: 'Bit-z.com',
             quantity: quantity_available_for_trade_value_other_why,

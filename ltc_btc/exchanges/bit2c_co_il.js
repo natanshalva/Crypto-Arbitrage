@@ -25,6 +25,7 @@ module.exports  =  function execute_bi2c_sort(
  // var sell_withdraw_fee = 0.995 ; // 0.05%
 
     var bi2c_sort = {
+      exchange_site: 'bit2c.co.il',
       lowest_sell__in_NIS: null,
       haighest_buy__in_NIS: null,
       u_can_buy_in_BI2C_for_BTC: null,

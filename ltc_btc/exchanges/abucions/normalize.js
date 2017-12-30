@@ -20,6 +20,7 @@ module.exports = function abucoins_sorted( order_book, coin,
 
 
   var abucions_sorted = {
+    exchange_site: 'abucoins.com',
     u_can_sell: null,
     u_can_buy: null,
     buy_quantity: null,
