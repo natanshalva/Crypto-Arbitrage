@@ -4,6 +4,25 @@ module.exports  = function (Big,colour) {
 
 
   var re  = {
+    start: function(i) {
+      DEBUG && console.log(' ');
+      DEBUG && console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@'.info);
+      DEBUG && console.log('                 start scale                            '.red);
+      DEBUG && console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@'.info);
+      console.log('                                                         '.info);
+      DEBUG && console.log('i:'.info, i);
+    },
+    end_of_cycle: function(path, counting_rounds) {
+      DEBUG && console.log('  ');
+      console.log('done... '+path.basename(__filename) +' ('+ counting_rounds+')' );
+      DEBUG && console.log('  ');
+    },
+    loop_function: function(run_in_loop_wrapper,delay_in_milliseconds) {
+      if(DEBUG === false ){
+        var delay = delay_in_milliseconds ;
+        setTimeout(run_in_loop_wrapper, delay );
+      }
+    },
     quantity_available_for_trade:  function quantity_available_for_trade(quantity_for_sell,
       quantity_available) {
     DEBUG && console.log('we are in: quantity_available_for_trade '.info);

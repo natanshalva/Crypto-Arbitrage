@@ -1,14 +1,18 @@
 
-// DEBUG = false;
-DEBUG = true;
+ DEBUG = false;
+// DEBUG = true;
 
-console.log('Arber is runing ...');
+
+
+console.log('Arber is running ...');
+
 
 var coin_name = 'BTG';
 var pair_coin = 'BTC' ;
 
-// var STORE_NEGATIVE_RESOLES = false ;
-var STORE_NEGATIVE_RESOLES = true ;
+ var STORE_NEGATIVE_RESOLES = false ;
+var counting_rounds = 0 ;
+ // var STORE_NEGATIVE_RESOLES = true ;
 
  var run_in_loop = false;
 // var run_in_loop = true;
@@ -42,6 +46,9 @@ log.info('start run');
 var async = require('async');
 var bit2c = require('bit2c');
 var Big = require('big.js');
+
+var path = require('path');
+
 var helper_functions = require('../common/helper_functions.js')(Big,colour);
 
 var normalize_Bi2c = require('../normelize/bit2c_co_il.js')(Big,colour);
@@ -89,9 +96,7 @@ function run_in_loop_wrapper() {           //  create a loop function
         },
       ], // optional callback
       function(err, results) {
-        // the results array will equal ['one','two'] even though
-        // the second function had a shorter timeout.
-        //   DEBUG && console.log('results'.info, results);
+
 
         var   bit_z_com_depth = results[0];
         bit_z_com_depth.data.asks =   bit_z_com_depth.data.asks.reverse();
@@ -154,73 +159,33 @@ function run_in_loop_wrapper() {           //  create a loop function
                      };
 
                      console.log('bit2c_co_il_NIS_BTC: '.info, bit2c_co_il_NIS_BTC);*/
-
 //&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-
-
 
         var orders_to_inspect = bit2c_co_il_order_book.asks;
 
-
-        //--------------------------------------------------------
-        //          functions
-        //--------------------------------------------------------
- /*       function print_margin_in_NIS(margin, quantity_available_for_trade,
-            txt) {
-          DEBUG && console.log('we are in print_margin_in_NIS'.info);
-          DEBUG && console.log('margin: '.info, margin);
-          DEBUG && console.log('quantity_available_for_trade: '.info,
-              quantity_available_for_trade);
-          var margin_in_BTC = price_in_BTC_times_quantity_in_coin(
-              margin, quantity_available_for_trade);
-
-          var print_BTC_in_NIS_v = print_BTC_in_NIS(margin_in_BTC,
-              bit2c_co_il_NIS_BTC.h, txt);
-          return print_BTC_in_NIS_v;
-        };*/
-
-
-
-
-
-
-  /*      function print_BTC_in_NIS(value, buy_bitcoin_in_NIS, text) {
-          DEBUG && console.log('in print_BTC_in_NIS'.info);
-          DEBUG && console.log('buy_bitcoin_in_NIS: '.info, buy_bitcoin_in_NIS);
-          DEBUG && console.log('value: '.info, value);
-          var read_number_in_nis = parseFloat(value * buy_bitcoin_in_NIS).toLocaleString();
-          console.log('--------------------------------------------------------'.grey);
-          console.log(text.info, read_number_in_nis);
-          console.log('--------------------------------------------------------'.grey);
-          return read_number_in_nis;
-        }*/
-
-
-
-
-
         //  for (var i = 0; i < orders_to_inspect.length; i++) {
 
-
-
         for (var i = 0; i < 1; i++) {
-          DEBUG && console.log(' ');
-          console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@'.info);
-          console.log('                 start scale                            '.red);
-          console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@'.info);
-          console.log('                                                         '.info);
-          DEBUG && console.log('Start sort bit2c asks number:'.info, i);
-          DEBUG && console.log('bit2c_co_il_order_book.asks : '.info, orders_to_inspect[i]);
 
+           helper_functions.start(i);
 
           var exchange_a = require('../exchanges/bit2c_co_il.js')(
-              bit2c_co_il_NIS_BTC, bit2c_co_il_order_book, coin_name, i, normalize_Bi2c);
+              bit2c_co_il_NIS_BTC,
+              bit2c_co_il_order_book,
+              coin_name,
+              i,
+              normalize_Bi2c
+            );
 
           // ********************************************************************************
           //var string_sell_quantity = new Big(  bit_z_com_depth.data.bids[action_i][1]);
 
           var exchange_b = require('../exchanges/bit_z_com.js')(
-              bit_z_com_depth, coin_name, i, normalize_Bit_z_com);
+              bit_z_com_depth,
+              coin_name,
+              i,
+              normalize_Bit_z_com
+          );
 
           // ********************************************************************************
           //        finely calculation
@@ -245,11 +210,10 @@ function run_in_loop_wrapper() {           //  create a loop function
 
         };
 
-        DEBUG && console.log('  ');
-        DEBUG && console.log('done...'.info);
-        DEBUG && console.log('  ');
+
       }); // end
-  if(run_in_loop){
+  if( DEBUG === false ){
+    counting_rounds = counting_rounds + 1 ;
     setTimeout(run_in_loop_wrapper, delay_in_milliseconds);
   }
 };
