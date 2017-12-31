@@ -210,12 +210,12 @@ function run_in_loop_wrapper() {           //  create a loop function
 
         };
 
+        counting_rounds = helper_functions.end_of_cycle(path,counting_rounds);
 
       }); // end
-  if( DEBUG === false ){
-    counting_rounds = counting_rounds + 1 ;
-    setTimeout(run_in_loop_wrapper, delay_in_milliseconds);
-  }
+
+  helper_functions.loop_function(run_in_loop_wrapper,delay_in_milliseconds);
+
 };
 
 run_in_loop_wrapper();

@@ -416,6 +416,7 @@ function run_in_loop_wrapper() {           //  create a loop function
 
         };
 
+        console.log('sssssss');
         helper.functions.end_of_cycle(path,counting_rounds);
 
       }); // end

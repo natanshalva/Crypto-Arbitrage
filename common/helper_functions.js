@@ -13,12 +13,15 @@ module.exports  = function (Big,colour) {
       DEBUG && console.log('i:'.info, i);
     },
     end_of_cycle: function(path, counting_rounds) {
+      var counting_rounds_plus_one = counting_rounds + 1 ;
       DEBUG && console.log('  ');
-      console.log('done... '+path.basename(__filename) +' ('+ counting_rounds+')' );
+      console.log('done... '+path.basename(__filename) +' ('+ counting_rounds_plus_one+')' );
       DEBUG && console.log('  ');
+      return counting_rounds_plus_one ;
     },
     loop_function: function(run_in_loop_wrapper,delay_in_milliseconds) {
       if(DEBUG === false ){
+
         var delay = delay_in_milliseconds ;
         setTimeout(run_in_loop_wrapper, delay );
       }
