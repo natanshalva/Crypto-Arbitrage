@@ -1,5 +1,5 @@
-// DEBUG = false;
- DEBUG = true;
+ DEBUG = false;
+// DEBUG = true;
 
 console.log('Arber is running ...');
 
@@ -163,7 +163,7 @@ function run_in_loop_wrapper() {           //  create a loop function
           require('../../common/store_data.js')(params_of_examine_to_store, STORE_NEGATIVE_RESOLES);
         };
 
-        counting_rounds = helper_functions.end_of_cycle(coin_name, pair_coin, path.basename(__filename),counting_rounds);
+        counting_rounds = helper_functions.end_of_cycle(coin_name, pair_coin, r.path.basename(__filename),counting_rounds);
 
       }); // end
 

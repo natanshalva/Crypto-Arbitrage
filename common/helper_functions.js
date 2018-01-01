@@ -5,7 +5,6 @@
 module.exports  = function (Big,colour,log) {
 
 
-
   var re  = {
     start: function(i) {
       DEBUG && console.log(' ');
@@ -16,6 +15,7 @@ module.exports  = function (Big,colour,log) {
       DEBUG && console.log('i:'.info, i);
     },
     end_of_cycle: function(coin, pair_coin, path, counting_rounds) {
+      DEBUG && console.log('we are in end_of_cycle');
       var counting_rounds_plus_one = counting_rounds + 1 ;
       DEBUG && console.log('  ');
       var str = 'done... '+coin+'-'+pair_coin+' '+path +' '+ counting_rounds_plus_one ;
