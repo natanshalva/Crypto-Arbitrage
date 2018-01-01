@@ -1,14 +1,14 @@
-DEBUG = false;
+ DEBUG = false;
 // DEBUG = true;
 
 console.log('Arber is running ...');
 
-var coin_name = 'LTC';
-var pair_coin = 'BTC' ;
+var coin_name = 'BCH';
+var pair_coin = 'NIS' ;
 
-var STORE_NEGATIVE_RESOLES = false ;
+ var STORE_NEGATIVE_RESOLES = false ;
 var counting_rounds = 0 ;
-// var STORE_NEGATIVE_RESOLES = true ;
+ // var STORE_NEGATIVE_RESOLES = true ;
 
 var delay_in_milliseconds = 5000;
 
@@ -38,15 +38,14 @@ log.info('start run');
 
 
 var async = require('async');
-// var bit2c = require('bit2c');
+var bit2c = require('bit2c');
 var Big = require('big.js');
 
 var path = require('path');
 
 var helper_functions = require('../common/helper_functions.js')(Big,colour);
 
-// call normalize
-var standard_normalized = require('../normelize/standard_normalized.js')(Big,colour);
+var normalize_Bi2c = require('../normelize/bit2c_co_il.js')(Big,colour);
 var normalize_Bit_z_com = require('../normelize/bit_z_com.js')(Big,colour);
 
 DEBUG && console.log('finish lode and start loop');
@@ -59,7 +58,7 @@ function run_in_loop_wrapper() {           //  create a loop function
           var rp = require('request-promise');
           var options = {
             //  uri: 'https://www.bit-z.com/api_v1/ticker?coin=btg_btc',
-            uri: 'https://www.bit-z.com/api_v1/depth?coin=btg_btc', qs: {
+            uri: 'https://www.bit-z.com/api_v1/depth?coin=bch_btc', qs: {
               //   access_token: 'xxxxx xxxxx' // -> uri + '?access_token=xxxxx%20xxxxx'
             }, headers: {
               'User-Agent': 'Request-Promise',
@@ -72,67 +71,15 @@ function run_in_loop_wrapper() {           //  create a loop function
             // API call failed...
           });
         }, function(callback) {
-
-          const rp = require('request-promise');
-          const crypto = require('crypto');
-
-          const TIMEOUT = 5000;
-
-          class Abucoins {
-            constructor() {
-              this.endpoint = 'https://api.abucoins.com';
-              this.credentials = {
-                key: '10513875-XZAEVTFUOK87G6192P3NYMDWSB05CHRJ',
-                secret: 'LzRSRE13SnJXcCV0SV0xS0YpfTc9NXghWUIwKkUiPnw2PzwsT2BffkAmaFU5UUNn',
-                passphrase: 'ij5tgkjdb',
-              }
-            }
-
-            _jsonRequest(options) {
-              options.timeout = TIMEOUT;
-              options.json = true;
-
-              return rp(options);
-            }
-
-            _getHeaders(sign, timestamp) {
-              return {
-                'AC-ACCESS-KEY': this.credentials.key,
-                'AC-ACCESS-SIGN': sign,
-                'AC-ACCESS-TIMESTAMP': timestamp,
-                'AC-ACCESS-PASSPHRASE': this.credentials.passphrase,
-              };
-            }
-
-            signAndRequest(method, path, body = {}) {
-              const timestamp = Math.floor(new Date() / 1000);
-              let options = {
-                uri: `${this.endpoint}${path}`, method: method, body: body,
-              };
-              let string = timestamp + method + path;
-              if (Object.keys(body).length > 0) {
-                string += JSON.stringify(body);
-              }
-              const sign = crypto.createHmac('sha256',
-                  Buffer.from(this.credentials.secret, 'base64')).
-                  update(string).
-                  digest('base64');
-              options.headers = this._getHeaders(sign, timestamp);
-
-              return this._jsonRequest(options);
-            }
-          }
-
-          let abucoins = new Abucoins();
-          let orders = abucoins.signAndRequest('GET', `/products/LTC-BTC/book?level=1`);
-
-          orders.then((list) => {
-            // console.log(list);
-            callback(null, list );
-
+          //  callback(null,1);
+          bit2c.getOrderBook('BchNis', function(error, getOrderBook) {
+            callback(null, getOrderBook);
           });
-
-
+        }, function(callback) {
+          // callback(null,1);
+          bit2c.getTicker('BtcNis', function(error, ticker) {
+            callback(null, ticker);
+          });
         },
       ], // optional callback
       function(err, results) {
@@ -142,10 +89,14 @@ function run_in_loop_wrapper() {           //  create a loop function
         // var gg = sss.reverse();
         //  DEBUG && console.log('bit_z_com_BTC_BTG: '.info, bit_z_com_depth.data.asks);
 
-        var abocoins_order_book = results[1];
+        var bit2c_co_il_order_book = results[1];
         //  DEBUG && console.log('bit2c_co_il_order_book: ', bit2c_co_il_order_book);
 
-        
+        var bit2c_co_il_NIS_BTC = results[2];
+        //  console.log('bit2c_co_il_NIS_BTC: '.info, bit2c_co_il_NIS_BTC);
+
+
+
 //&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
         // demo numbers !!!
 
@@ -164,8 +115,8 @@ function run_in_loop_wrapper() {           //  create a loop function
              DEBUG && console.log('bit_z_com_BTC_BTG: '.info, bit_z_com_BTG_BTC);
        */
 
-        // var abocoins_order_book= results[1];
-        /*             var abocoins_order_book= {
+        // var bit2c_co_il_order_book = results[1];
+        /*             var bit2c_co_il_order_book = {
                        asks: [
                          [
                            1, 4.0000000, 1514008359,
@@ -195,19 +146,22 @@ function run_in_loop_wrapper() {           //  create a loop function
 
                      console.log('bit2c_co_il_NIS_BTC: '.info, bit2c_co_il_NIS_BTC);*/
 //&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-        
+
+        var orders_to_inspect = bit2c_co_il_order_book.asks;
+
+        //  for (var i = 0; i < orders_to_inspect.length; i++) {
+
         for (var i = 0; i < 1; i++) {
 
-          helper_functions.start(i);
+           helper_functions.start(i);
 
-          var exchange_a = require('../exchanges/abucoins_com.js')(
-              i,
+          var exchange_a = require('../exchanges/bit2c_co_il.js')(
+              bit2c_co_il_NIS_BTC,
+              bit2c_co_il_order_book,
               coin_name,
-              pair_coin,
-              abocoins_order_book,
-              standard_normalized,
-              Big
-          );
+              i,
+              normalize_Bi2c
+            );
 
           // ********************************************************************************
           //var string_sell_quantity = new Big(  bit_z_com_depth.data.bids[action_i][1]);
@@ -224,22 +178,22 @@ function run_in_loop_wrapper() {           //  create a loop function
           // ********************************************************************************
           DEBUG && console.log(' ');
           DEBUG && console.log('start calculation'.info);
-          DEBUG && console.log(' ');
 
+          var price_margin = exchange_a.u_can_sell_in_bi2c_for_BTC - exchange_b.u_can_buy;
 
-          var price_margin = exchange_a.u_can_sell - exchange_b.u_can_buy;
+          DEBUG && console.log('buy_in_Bit_z_com__sell_in_Bi2c: '.info, price_margin);
 
-          DEBUG && console.log('price_margin: '.info, price_margin);
 
           var params_of_examine_to_store = require('./custom_moduls/prper_for_sending')(coin_name,pair_coin, exchange_a, exchange_b, price_margin,helper_functions);
           require('./custom_moduls/store_data.js')(params_of_examine_to_store, STORE_NEGATIVE_RESOLES);
           //------------------------------------------------------------------------------------
 
-          var price_margin = exchange_b.u_can_sell - exchange_a.u_can_buy;
-          DEBUG && console.log('price_margin'.info, price_margin);
+          var price_margin = exchange_b.u_can_sell - exchange_a.u_can_buy_in_BI2C_for_BTC;
+          DEBUG && console.log('buy_in_BI2C_sell_in_BIT_Z_COM'.info, price_margin);
 
           var params_of_examine_to_store = require('./custom_moduls/prper_for_sending')(coin_name,pair_coin, exchange_b  , exchange_a, price_margin,helper_functions);
           require('./custom_moduls/store_data.js')(params_of_examine_to_store, STORE_NEGATIVE_RESOLES);
+
         };
 
         counting_rounds = helper_functions.end_of_cycle(path,counting_rounds);
