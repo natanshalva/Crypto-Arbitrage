@@ -1,6 +1,9 @@
+//-------------------------------------------------------------------
+//  log
+//----------------------------------------------------------------
 
+module.exports  = function (Big,colour,log) {
 
-module.exports  = function (Big,colour) {
 
 
   var re  = {
@@ -12,11 +15,13 @@ module.exports  = function (Big,colour) {
       console.log('                                                         '.info);
       DEBUG && console.log('i:'.info, i);
     },
-    end_of_cycle: function(path, counting_rounds) {
+    end_of_cycle: function(coin, pair_coin, path, counting_rounds) {
       var counting_rounds_plus_one = counting_rounds + 1 ;
       DEBUG && console.log('  ');
-      console.log('done... '+path.basename(__filename) +' ('+ counting_rounds_plus_one+')' );
+      var str = 'done... '+coin+'-'+pair_coin+' '+path +' '+ counting_rounds_plus_one ;
+      console.log(str);
       DEBUG && console.log('  ');
+      log.info(str);
       return counting_rounds_plus_one ;
     },
     loop_function: function(run_in_loop_wrapper,delay_in_milliseconds) {
@@ -45,24 +50,31 @@ module.exports  = function (Big,colour) {
     // DEBUG && console.log('type of... margin'.info, typeof margin);
     DEBUG && console.log('quantity '.info, quantity);
     // DEBUG && console.log('type of...quantity '.info, typeof quantity);
-    var price_times_quantity_return_value = margin * quantity;
+    var price_times_quantity_return_value = parseFloat(margin) * parseFloat(quantity);
 
     DEBUG && console.log('type of... '.info, typeof price_times_quantity_return_value);
     DEBUG && console.log('price_times_quantity'.info, price_times_quantity_return_value);
-    return price_times_quantity_return_value;
+
+    var fix_price_times_quantity_return_value = parseFloat(price_times_quantity_return_value).toFixed(8);
+    DEBUG && console.log('fix_price_times_quantity_return_value'.info, fix_price_times_quantity_return_value);
+    return fix_price_times_quantity_return_value;
   },
 
   margin_in_the_same_coin:  function margin_in_the_same_coin(margin, quantity) {
-      DEBUG && console.log('we are in margin_in_the_same_coin'.info);
-      DEBUG && console.log('margin: '.info, margin);
-      DEBUG && console.log('quantity: '.info, quantity);
+      DEBUG && console.log('we are in margin_in_the_same_coin'.green);
+
+      var margin_fix = parseFloat(margin).toFixed(8);
+      var quantity_fix = parseFloat(quantity).toFixed(8);
+
+      DEBUG && console.log('margin: '.info, margin_fix);
+      DEBUG && console.log('quantity: '.info, quantity_fix);
   //  var gg = Big(margin) * Big(quantity); // e.price_times_quantity(margin, quantity);
-    var gg =   re.price_times_quantity(margin, quantity);
-    DEBUG && console.log('we return ->gg:  ', gg);
+    var gg =   re.price_times_quantity(margin_fix, quantity_fix);
+   // DEBUG && console.log('we return:  '.info , gg);
     var x = new Big(gg);
     var dd = x.times(quantity).toFixed(8);
     
-    DEBUG && console.log('we return ->margin_in_the_same_coin:  '.info , dd );
+    DEBUG && console.log('we return - margin_in_the_same_coin:  '.info , dd );
     // this must reten a string
     return dd;
   }

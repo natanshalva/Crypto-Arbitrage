@@ -43,10 +43,10 @@ var Big = require('big.js');
 
 var path = require('path');
 
-var helper_functions = require('../common/helper_functions.js')(Big,colour);
+var helper_functions = require('../../common/helper_functions.js')(Big,colour);
 
-var normalize_Bi2c = require('../normelize/bit2c_co_il.js')(Big,colour);
-var normalize_Bit_z_com = require('../normelize/bit_z_com.js')(Big,colour);
+var normalize_Bi2c = require('../../normelize/bit2c_co_il.js')(Big,colour);
+var normalize_Bit_z_com = require('../../normelize/bit_z_com.js')(Big,colour);
 
 DEBUG && console.log('finish lode and start loop');
 
@@ -155,7 +155,7 @@ function run_in_loop_wrapper() {           //  create a loop function
 
            helper_functions.start(i);
 
-          var exchange_a = require('../exchanges/bit2c_co_il.js')(
+          var exchange_a = require('../../exchanges/bit2c_co_il.js')(
               bit2c_co_il_NIS_BTC,
               bit2c_co_il_order_book,
               coin_name,
@@ -166,7 +166,7 @@ function run_in_loop_wrapper() {           //  create a loop function
           // ********************************************************************************
           //var string_sell_quantity = new Big(  bit_z_com_depth.data.bids[action_i][1]);
 
-          var exchange_b = require('../exchanges/bit_z_com.js')(
+          var exchange_b = require('../../exchanges/bit_z_com.js')(
               bit_z_com_depth,
               coin_name,
               i,
@@ -184,15 +184,15 @@ function run_in_loop_wrapper() {           //  create a loop function
           DEBUG && console.log('buy_in_Bit_z_com__sell_in_Bi2c: '.info, price_margin);
 
 
-          var params_of_examine_to_store = require('./custom_moduls/prper_for_sending')(coin_name,pair_coin, exchange_a, exchange_b, price_margin,helper_functions);
-          require('./custom_moduls/store_data.js')(params_of_examine_to_store, STORE_NEGATIVE_RESOLES);
+          var params_of_examine_to_store = require('../../common/prper_for_sending')(coin_name,pair_coin, exchange_a, exchange_b, price_margin,helper_functions);
+          require('../../common/store_data.js')(params_of_examine_to_store, STORE_NEGATIVE_RESOLES);
           //------------------------------------------------------------------------------------
 
           var price_margin = exchange_b.u_can_sell - exchange_a.u_can_buy_in_BI2C_for_BTC;
           DEBUG && console.log('buy_in_BI2C_sell_in_BIT_Z_COM'.info, price_margin);
 
-          var params_of_examine_to_store = require('./custom_moduls/prper_for_sending')(coin_name,pair_coin, exchange_b  , exchange_a, price_margin,helper_functions);
-          require('./custom_moduls/store_data.js')(params_of_examine_to_store, STORE_NEGATIVE_RESOLES);
+          var params_of_examine_to_store = require('../../common/prper_for_sending')(coin_name,pair_coin, exchange_b  , exchange_a, price_margin,helper_functions);
+          require('../../common/store_data.js')(params_of_examine_to_store, STORE_NEGATIVE_RESOLES);
 
         };
 

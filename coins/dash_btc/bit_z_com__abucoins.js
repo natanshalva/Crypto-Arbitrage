@@ -1,9 +1,9 @@
-DEBUG = false;
-//DEBUG = true;
+ DEBUG = false;
+// DEBUG = true;
 
 console.log('Arber is running ...');
 
-var coin_name = 'BCH';
+var coin_name = 'DASH';
 var pair_coin = 'BTC' ;
 
 var STORE_NEGATIVE_RESOLES = false ;
@@ -59,7 +59,7 @@ function run_in_loop_wrapper() {           //  create a loop function
           var rp = require('request-promise');
           var options = {
             //  uri: 'https://www.bit-z.com/api_v1/ticker?coin=btg_btc',
-            uri: 'https://www.bit-z.com/api_v1/depth?coin=bch_btc', qs: {
+            uri: 'https://www.bit-z.com/api_v1/depth?coin=dash_btc', qs: {
               //   access_token: 'xxxxx xxxxx' // -> uri + '?access_token=xxxxx%20xxxxx'
             }, headers: {
               'User-Agent': 'Request-Promise',
@@ -124,7 +124,7 @@ function run_in_loop_wrapper() {           //  create a loop function
           }
 
           let abucoins = new Abucoins();
-          let orders = abucoins.signAndRequest('GET', `/products/BCH-BTC/book?level=1`);
+          let orders = abucoins.signAndRequest('GET', `/products/DASH-BTC/book?level=1`);
 
           orders.then((list) => {
             // console.log(list);
@@ -231,15 +231,15 @@ function run_in_loop_wrapper() {           //  create a loop function
 
           DEBUG && console.log('price_margin: '.info, price_margin);
 
-          var params_of_examine_to_store = require('./custom_moduls/prper_for_sending')(coin_name,pair_coin, exchange_a, exchange_b, price_margin,helper_functions);
-          require('./custom_moduls/store_data.js')(params_of_examine_to_store, STORE_NEGATIVE_RESOLES);
+          var params_of_examine_to_store = require('../../common/prper_for_sending')(coin_name,pair_coin, exchange_a, exchange_b, price_margin,helper_functions);
+          require('../../common/store_data.js')(params_of_examine_to_store, STORE_NEGATIVE_RESOLES);
           //------------------------------------------------------------------------------------
 
           var price_margin = exchange_b.u_can_sell - exchange_a.u_can_buy;
           DEBUG && console.log('price_margin'.info, price_margin);
 
-          var params_of_examine_to_store = require('./custom_moduls/prper_for_sending')(coin_name,pair_coin, exchange_b  , exchange_a, price_margin,helper_functions);
-          require('./custom_moduls/store_data.js')(params_of_examine_to_store, STORE_NEGATIVE_RESOLES);
+          var params_of_examine_to_store = require('../../common/prper_for_sending')(coin_name,pair_coin, exchange_b  , exchange_a, price_margin,helper_functions);
+          require('../../common/store_data.js')(params_of_examine_to_store, STORE_NEGATIVE_RESOLES);
         };
 
         counting_rounds = helper_functions.end_of_cycle(path,counting_rounds);

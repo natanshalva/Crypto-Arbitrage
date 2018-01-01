@@ -1,4 +1,4 @@
-var Big = require('big.js');
+var Big = require('./');
 DEBUG = true;
 DEBUG && console.log('in normalize_Bi2c'.info );
 var b_coin_value = new Big(10);

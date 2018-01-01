@@ -418,7 +418,7 @@ function run_in_loop_wrapper() {           //  create a loop function
             quantity: quantity_available_for_trade_value,
             profit: margin_in_the_same_coin_value,
           };
-          require('./custom_moduls/store_data.js')(
+          require('../../common/store_data.js')(
               params_of_examine_to_store, STORE_NEGATIVE_RESOLES);
 
 
@@ -440,7 +440,7 @@ function run_in_loop_wrapper() {           //  create a loop function
 
           DEBUG && console.log('params_of_examine_to_store: '.red ,
               params_of_examine_to_store);
-          require('./custom_moduls/store_data.js')( params_of_examine_to_store, STORE_NEGATIVE_RESOLES);
+          require('../../common/store_data.js')( params_of_examine_to_store, STORE_NEGATIVE_RESOLES);
 
 
         };

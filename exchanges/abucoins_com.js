@@ -54,8 +54,8 @@ module.exports = function abucoins_sorted(
   //--------------------------------------------------------
   //              quantity
   //--------------------------------------------------------
-  abucions_sorted.buy_quantity = parseFloat(order_book.asks[action_i][1]);
-  abucions_sorted.sell_quantity = parseFloat(order_book.bids[action_i][1]);
+  abucions_sorted.buy_quantity = parseFloat(order_book.asks[action_i][1]).toFixed(8);
+  abucions_sorted.sell_quantity = parseFloat(order_book.bids[action_i][1]).toFixed(8);
 
 
 
@@ -70,8 +70,7 @@ module.exports = function abucoins_sorted(
       buy_withdraw_fee
   );
 
-  // sell
-  // 10 - 0.01% = 99.99 -> withdraw: 99.99 - 0.05% = total price to sell BTG in bit-z.com
+ // sell
   abucions_sorted.u_can_sell = standard_normalized(
       order_book.bids[action_i][0],
       sell_trad_fee,
