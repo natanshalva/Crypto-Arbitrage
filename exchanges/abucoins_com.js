@@ -4,9 +4,9 @@
 // the price - less the trade fee - and less Withdrawal fee
 
 module.exports = function abucoins_sorted( order_book, coin,
-    action_i,standard_normalized_full_cycle, Big) {
+    action_i,helper_functions, Big) {
   DEBUG && console.log('in abucoins_sorted'.info);
- // var Big = require('big.js');
+  // var Big = require('big.js');
   // ------------------------------------------------
   //    fees
   // ------------------------------------------------
@@ -41,7 +41,7 @@ module.exports = function abucoins_sorted( order_book, coin,
   // price
   // buy
   // 10 + 0.01% = 10.01 -> withdraw:  10.01  +  0.05% = total price to buy BTG in bit-z.com
-  abucions_sorted.u_can_buy = standard_normalized_full_cycle(
+  abucions_sorted.u_can_buy = helper_functions.standard_normalized_full_cycle(
       order_book.asks[action_i][0] ,
       buy_trad_fee ,
       buy_withdraw_fee
@@ -49,7 +49,7 @@ module.exports = function abucoins_sorted( order_book, coin,
 
   // sell
   // 10 - 0.01% = 99.99 -> withdraw: 99.99 - 0.05% = total price to sell BTG in bit-z.com
-  abucions_sorted.u_can_sell = standard_normalized_full_cycle(
+  abucions_sorted.u_can_sell = helper_functions.standard_normalized_full_cycle(
       order_book.bids[action_i][0],
       sell_trad_fee,
       sell_withdraw_fee

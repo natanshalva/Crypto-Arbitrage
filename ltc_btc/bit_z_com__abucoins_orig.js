@@ -344,7 +344,7 @@ function run_in_loop_wrapper() {           //  create a loop function
           //    Abucoins
           //------------------------------------------------------------
 
-          var abucoin_sorted = require('../exchanges/abucions/normalize.js')(
+          var abucoin_sorted = require('../exchanges/abucoins_com.js')(
               Abucoins_order_book, coin_name, i, standard_normalized_full_cycle);
 
 

@@ -1,21 +1,15 @@
-
- DEBUG = false;
+DEBUG = false;
 // DEBUG = true;
-
-
 
 console.log('Arber is running ...');
 
-
-var coin_name = 'BTG';
+var coin_name = 'LTC';
 var pair_coin = 'BTC' ;
 
  var STORE_NEGATIVE_RESOLES = false ;
 var counting_rounds = 0 ;
  // var STORE_NEGATIVE_RESOLES = true ;
 
- var run_in_loop = false;
-// var run_in_loop = true;
 var delay_in_milliseconds = 5000;
 
 var colour = require('colour');
@@ -61,14 +55,7 @@ function run_in_loop_wrapper() {           //  create a loop function
 
   async.parallel([
         function get__bit_z_com(callback) {
-          //  callback(null,1);
-          /*   require('./exchanges/bit_z_com').then(function(foo){
-              //Here code using foo;
-               callback(foo);
-            });*/
-
           var rp = require('request-promise');
-
           var options = {
             //  uri: 'https://www.bit-z.com/api_v1/ticker?coin=btg_btc',
             uri: 'https://www.bit-z.com/api_v1/depth?coin=btg_btc', qs: {
@@ -96,7 +83,6 @@ function run_in_loop_wrapper() {           //  create a loop function
         },
       ], // optional callback
       function(err, results) {
-
 
         var   bit_z_com_depth = results[0];
         bit_z_com_depth.data.asks =   bit_z_com_depth.data.asks.reverse();
