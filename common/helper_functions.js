@@ -52,9 +52,10 @@ module.exports  = function (Big,colour) {
     return price_times_quantity_return_value;
   },
 
-  margin_in_the_same_coin:  function margin_in_the_same_coin(margin,
-      quantity) {
+  margin_in_the_same_coin:  function margin_in_the_same_coin(margin, quantity) {
       DEBUG && console.log('we are in margin_in_the_same_coin'.info);
+      DEBUG && console.log('margin: '.info, margin);
+      DEBUG && console.log('quantity: '.info, quantity);
   //  var gg = Big(margin) * Big(quantity); // e.price_times_quantity(margin, quantity);
     var gg =   re.price_times_quantity(margin, quantity);
     DEBUG && console.log('we return ->gg:  ', gg);

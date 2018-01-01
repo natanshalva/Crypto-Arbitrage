@@ -19,17 +19,12 @@ module.exports = function bit_z_com_sorted(bit_z_com_depth, coin,
 
   var bit_z_com_sorted = {
     exchange_site: 'bit-z.com',
-    u_can_sell_in_Bit_z_com: null,
-    u_can_buy_in_Bit_z_com: null,
+    u_can_sell: null,
+    u_can_buy: null,
     buy_quantity: null,
     sell_quantity: null
   };
 
-  //--------------------------------------------------------
-  //              quantity
-  //--------------------------------------------------------
-  bit_z_com_sorted.buy_quantity = parseFloat(bit_z_com_depth.data.asks[action_i][1]);
-  bit_z_com_sorted.sell_quantity = parseFloat(bit_z_com_depth.data.bids[action_i][1]);
 
 /*  function normalize_Bit_z_com(coin_value, coin_fee, bit2c_co_il_NIS_BTC) {
 
@@ -41,7 +36,7 @@ module.exports = function bit_z_com_sorted(bit_z_com_depth, coin,
   // price
   // buy
   // 10 + 0.01% = 10.01 -> withdraw:  10.01  +  0.05% = total price to buy BTG in bit-z.com
-  bit_z_com_sorted.u_can_buy_in_Bit_z_com = normalize_Bit_z_com(
+  bit_z_com_sorted.u_can_buy = normalize_Bit_z_com(
       bit_z_com_depth.data.asks[action_i][0] ,
       buy_trad_fee ,
       buy_withdraw_fee
@@ -49,12 +44,18 @@ module.exports = function bit_z_com_sorted(bit_z_com_depth, coin,
 
   // sell
   // 10 - 0.01% = 99.99 -> withdraw: 99.99 - 0.05% = total price to sell BTG in bit-z.com
-  bit_z_com_sorted.u_can_sell_in_Bit_z_com = normalize_Bit_z_com(
+  bit_z_com_sorted.u_can_sell = normalize_Bit_z_com(
       bit_z_com_depth.data.bids[action_i][0],
       sell_trad_fee,
       sell_withdraw_fee
   );
 
+
+  //--------------------------------------------------------
+  //              quantity
+  //--------------------------------------------------------
+  bit_z_com_sorted.buy_quantity = parseFloat(bit_z_com_depth.data.asks[action_i][1]);
+  bit_z_com_sorted.sell_quantity = parseFloat(bit_z_com_depth.data.bids[action_i][1]);
 
   //DEBUG && console.log('u_can_buy_in_Bit_z_com'.info, u_can_buy_in_Bit_z_com);
   DEBUG && console.log('bit_z_com_sorted: '.info , bit_z_com_sorted);

@@ -229,7 +229,6 @@ function run_in_loop_wrapper() {           //  create a loop function
 
           DEBUG && console.log('price_margin: '.info, price_margin);
 
-
           var params_of_examine_to_store = require('./custom_moduls/prper_for_sending')(coin_name,pair_coin, exchange_a, exchange_b, price_margin,helper_functions);
           require('./custom_moduls/store_data.js')(params_of_examine_to_store, STORE_NEGATIVE_RESOLES);
           //------------------------------------------------------------------------------------
@@ -239,7 +238,6 @@ function run_in_loop_wrapper() {           //  create a loop function
 
           var params_of_examine_to_store = require('./custom_moduls/prper_for_sending')(coin_name,pair_coin, exchange_b  , exchange_a, price_margin,helper_functions);
           require('./custom_moduls/store_data.js')(params_of_examine_to_store, STORE_NEGATIVE_RESOLES);
-
         };
 
         counting_rounds = helper_functions.end_of_cycle(path,counting_rounds);

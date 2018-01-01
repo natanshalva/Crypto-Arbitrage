@@ -1,5 +1,5 @@
-DEBUG = false;
-// DEBUG = true;
+// DEBUG = false;
+ DEBUG = true;
 
 console.log('Arber is running ...');
 
@@ -179,7 +179,7 @@ function run_in_loop_wrapper() {           //  create a loop function
           DEBUG && console.log(' ');
           DEBUG && console.log('start calculation'.info);
 
-          var price_margin = exchange_a.u_can_sell_in_bi2c_for_BTC - exchange_b.u_can_buy_in_Bit_z_com;
+          var price_margin = exchange_a.u_can_sell_in_bi2c_for_BTC - exchange_b.u_can_buy;
 
           DEBUG && console.log('buy_in_Bit_z_com__sell_in_Bi2c: '.info, price_margin);
 
@@ -188,7 +188,7 @@ function run_in_loop_wrapper() {           //  create a loop function
           require('./custom_moduls/store_data.js')(params_of_examine_to_store, STORE_NEGATIVE_RESOLES);
           //------------------------------------------------------------------------------------
 
-          var price_margin = exchange_b.u_can_sell_in_Bit_z_com - exchange_a.u_can_buy_in_BI2C_for_BTC;
+          var price_margin = exchange_b.u_can_sell - exchange_a.u_can_buy_in_BI2C_for_BTC;
           DEBUG && console.log('buy_in_BI2C_sell_in_BIT_Z_COM'.info, price_margin);
 
           var params_of_examine_to_store = require('./custom_moduls/prper_for_sending')(coin_name,pair_coin, exchange_b  , exchange_a, price_margin,helper_functions);
