@@ -45,7 +45,8 @@ var path = require('path');
 
 var helper_functions = require('../common/helper_functions.js')(Big,colour);
 
-// var normalize_Abucoins = require('../normelize/abucoins.js')(Big,colour);
+// call normalize
+var standard_normalized = require('../normelize/standard_normalized.js')(Big,colour);
 var normalize_Bit_z_com = require('../normelize/bit_z_com.js')(Big,colour);
 
 DEBUG && console.log('finish lode and start loop');
@@ -200,10 +201,11 @@ function run_in_loop_wrapper() {           //  create a loop function
           helper_functions.start(i);
 
           var exchange_a = require('../exchanges/abucoins_com.js')(
-              abocoins_order_book,
-              coin_name,
               i,
-              helper_functions,
+              coin_name,
+              pair_coin,
+              abocoins_order_book,
+              standard_normalized,
               Big
           );
 
