@@ -6,7 +6,7 @@ console.log('Arber is running ...');
 var coin_name = 'BCH';
 var pair_coin = 'BTC' ;
 
-var STORE_NEGATIVE_RESOLES = false ;
+ var STORE_NEGATIVE_RESOLES = false ;
 var counting_rounds = 0 ;
 // var STORE_NEGATIVE_RESOLES = true ;
 

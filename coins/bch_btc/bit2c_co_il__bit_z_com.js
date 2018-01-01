@@ -121,7 +121,6 @@ function run_in_loop_wrapper() {           //  create a loop function
 
         };
 
-        DEBUG && console.log('asdfasd');
         counting_rounds = helper_functions.end_of_cycle(coin_name, pair_coin,
             r.path.basename(__filename), counting_rounds);
 

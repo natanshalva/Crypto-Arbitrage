@@ -1,0 +1,4 @@
+pgrep -a node
+
+pkill node
+11677 /usr/local/bin/node ./coins/

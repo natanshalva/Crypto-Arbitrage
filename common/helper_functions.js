@@ -19,6 +19,7 @@ module.exports  = function (Big,colour,log) {
       var counting_rounds_plus_one = counting_rounds + 1 ;
       DEBUG && console.log('  ');
       var str = 'done... '+coin+'-'+pair_coin+' '+path +' '+ counting_rounds_plus_one ;
+
       console.log(str);
       DEBUG && console.log('  ');
       log.info(str);
