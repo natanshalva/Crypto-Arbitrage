@@ -1,4 +1,6 @@
-module.expotrs = function get_data(callback) {
+module.exports = function get_data(callback) {
+  DEBUG && console.log('we are in get_data - bit_z_com.js');
+
   var rp = require('request-promise');
   var options = {
     //  uri: 'https://www.bit-z.com/api_v1/ticker?coin=btg_btc',
@@ -10,12 +12,12 @@ module.expotrs = function get_data(callback) {
   };
 
   rp(options).then(function(da) {
-       console.log(da);
+   //    console.log('da',da);
     callback(null, da);
   // return da;
   }).catch(function(err) {
     // API call failed...
-     console.log('API call failed...');
+   //  console.log('API call failed...');
   });
 
 };

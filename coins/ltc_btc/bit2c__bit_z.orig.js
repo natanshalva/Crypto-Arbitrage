@@ -45,8 +45,8 @@ var path = require('path');
 
 var helper_functions = require('../../common/helper_functions.js')(Big,colour);
 
-var normalize_Bi2c = require('../../normelize/bit2c_co_il.js')(Big,colour);
-var normalize_Bit_z_com = require('../../normelize/bit_z_com.js')(Big,colour);
+var normalize_Bi2c = require('../../exchanges/normelize/bit2c_co_il.js')(Big,colour);
+var normalize_Bit_z_com = require('../../exchanges/normelize/bit_z_com.js')(Big,colour);
 
 DEBUG && console.log('finish lode and start loop');
 

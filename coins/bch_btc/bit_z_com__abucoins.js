@@ -18,8 +18,8 @@ var r = require('../../common/all_require');
 var helper_functions = require('../../common/helper_functions.js')(r.Big,r.colour, r.log);
 
 // call normalize
-var standard_normalized = require('../../normelize/standard_normalized.js')(r.Big,r.colour);
-var normalize_Bit_z_com = require('../../normelize/bit_z_com.js')(r.Big,r.colour);
+var standard_normalized = require('../../exchanges/normelize/standard_normalized.js')(r.Big,r.colour);
+var normalize_Bit_z_com = require('../../exchanges/normelize/bit_z_com.js')(r.Big,r.colour);
 
 DEBUG && console.log('finish lode and start loop');
 

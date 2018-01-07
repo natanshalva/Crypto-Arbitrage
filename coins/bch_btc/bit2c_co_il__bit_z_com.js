@@ -18,12 +18,11 @@ var r = require('../../common/all_require');
 
 var bit2c = require('bit2c');
 
-var helper_functions = require('../../common/helper_functions.js')(r.Big,
-    r.colour, r.log);
+var helper_functions = require('../../common/helper_functions.js')(r.Big, r.colour, r.log);
 
 // call normalize
-var normalize_Bi2c = require('../../normelize/bit2c_co_il.js')(r.Big,r.colour);
-var normalize_Bit_z_com = require('../../normelize/bit_z_com.js')(r.Big,r.colour);
+var normalize_Bi2c = require('../../exchanges/normelize/bit2c_co_il.js')(r.Big,r.colour);
+var normalize_Bit_z_com = require('../../exchanges/normelize/bit_z_com.js')(r.Big,r.colour);
 
 DEBUG && console.log('finish lode and start loop');
 
@@ -31,12 +30,7 @@ function run_in_loop_wrapper() {           //  create a loop function
 
   r.async.parallel([
         function get__bit_z_com(callback) {
-/*
-          var dd = require('../../exchanges/get_exchange_data/bit_z_com.js')(callback);
-
-          DEBUG && console.log('dd', dd);
-          callback(null , dd);*/
-
+          require('../../exchanges/get_exchange_data/bit_z_com.js')(callback);
         }, function(callback) {
           //  callback(null,1);
           bit2c.getOrderBook('BchNis', function(error, getOrderBook) {
@@ -50,8 +44,6 @@ function run_in_loop_wrapper() {           //  create a loop function
         },
       ], // optional callback
       function(err, results) {
-
-        DEBUG && console.log('dddddddddd');
 
         var bit_z_com_depth = results[0];
         bit_z_com_depth.data.asks = bit_z_com_depth.data.asks.reverse();
@@ -91,8 +83,7 @@ function run_in_loop_wrapper() {           //  create a loop function
           var price_margin = exchange_a.u_can_sell_in_bi2c_for_BTC -
               exchange_b.u_can_buy;
 
-          DEBUG &&
-          console.log('buy_in_Bit_z_com__sell_in_Bi2c: '.info, price_margin);
+          DEBUG && console.log('buy_in_Bit_z_com__sell_in_Bi2c: '.info, price_margin);
 
           var params_of_examine_to_store = require(
               '../../common/prper_for_sending')(coin_name, pair_coin,
