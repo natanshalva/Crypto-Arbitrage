@@ -1,4 +1,4 @@
-module.exports = module.expotrs = function(Big, colour) {
+module.expotrs = function(Big, colour) {
   return function normalize_Bi2c(coin_value, trade_fee, bit2c_co_il_NIS_BTC) {
     DEBUG && console.log(' '.info);
     DEBUG && console.log('in normalize_Bi2c'.info);

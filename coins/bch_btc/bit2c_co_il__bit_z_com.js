@@ -1,5 +1,5 @@
- DEBUG = false;
-// DEBUG = true;
+// DEBUG = false;
+ DEBUG = true;
 
 console.log('Arber is running ...');
 
@@ -31,21 +31,12 @@ function run_in_loop_wrapper() {           //  create a loop function
 
   r.async.parallel([
         function get__bit_z_com(callback) {
-          var rp = require('request-promise');
-          var options = {
-            //  uri: 'https://www.bit-z.com/api_v1/ticker?coin=btg_btc',
-            uri: 'https://www.bit-z.com/api_v1/depth?coin=bch_btc', qs: {
-              //   access_token: 'xxxxx xxxxx' // -> uri + '?access_token=xxxxx%20xxxxx'
-            }, headers: {
-              'User-Agent': 'Request-Promise',
-            }, json: true // Automatically parses the JSON string in the response
-          };
-          rp(options).then(function(da) {
-            //  DEBUG && console.log(da);
-            callback(null, da);
-          }).catch(function(err) {
-            // API call failed...
-          });
+/*
+          var dd = require('../../exchanges/get_exchange_data/bit_z_com.js')(callback);
+
+          DEBUG && console.log('dd', dd);
+          callback(null , dd);*/
+
         }, function(callback) {
           //  callback(null,1);
           bit2c.getOrderBook('BchNis', function(error, getOrderBook) {
@@ -59,6 +50,8 @@ function run_in_loop_wrapper() {           //  create a loop function
         },
       ], // optional callback
       function(err, results) {
+
+        DEBUG && console.log('dddddddddd');
 
         var bit_z_com_depth = results[0];
         bit_z_com_depth.data.asks = bit_z_com_depth.data.asks.reverse();
@@ -79,14 +72,14 @@ function run_in_loop_wrapper() {           //  create a loop function
 
           helper_functions.start(i);
 
-          var exchange_a = require('../../exchanges/build_object/bit2c_co_il.js')(
+          var exchange_a = require('../../exchanges/build_exchange_object/bit2c_co_il.js')(
               bit2c_co_il_NIS_BTC, bit2c_co_il_order_book, coin_name, i,
               normalize_Bi2c);
 
           // ********************************************************************************
           //var string_sell_quantity = new Big(  bit_z_com_depth.data.bids[action_i][1]);
 
-          var exchange_b = require('../../exchanges/build_object/bit_z_com.js')(
+          var exchange_b = require('../../exchanges/build_exchange_object/bit_z_com.js')(
               bit_z_com_depth, coin_name, i, normalize_Bit_z_com);
 
           // ********************************************************************************
