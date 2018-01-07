@@ -12,7 +12,7 @@ module.exports = function prepare(coin_name,pair_coin, buy_form, sell_in, price_
 
   var margin_in_the_same_coin_value = helper_functions.margin_in_the_same_coin( price_margin, quantity_available_for_trade_value);
 
-  DEBUG && console.log('margin_in_the_same_coin_value sssss : '.info ,margin_in_the_same_coin_value);
+  DEBUG && console.log('margin_in_the_same_coin_value: '.info ,margin_in_the_same_coin_value);
   
   var params_of_examine_to_store = {
     coin: coin_name,
@@ -23,6 +23,7 @@ module.exports = function prepare(coin_name,pair_coin, buy_form, sell_in, price_
 
     quantity: quantity_available_for_trade_value,
     profit: margin_in_the_same_coin_value,
+    profit_in_percentage: (Nomber(quantity_available_for_trade_value) / Nomber(margin_in_the_same_coin_value)),
   };
   
 DEBUG && console.log('params_of_examine_to_store: info '.info, params_of_examine_to_store);

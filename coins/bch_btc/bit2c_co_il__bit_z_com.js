@@ -10,7 +10,7 @@ var STORE_NEGATIVE_RESOLES = false;
 var counting_rounds = 0;
 // var STORE_NEGATIVE_RESOLES = true ;
 
-var delay_in_milliseconds = 5000;
+var DELAY_TIME = 5000;
 
 var r = require('../../common/all_require');
 
@@ -106,7 +106,7 @@ function run_in_loop_wrapper() {           //  create a loop function
 
       }); // end
 
-  helper_functions.loop_function(run_in_loop_wrapper, delay_in_milliseconds);
+  helper_functions.loop_function(run_in_loop_wrapper, DELAY_TIME);
 
 };
 

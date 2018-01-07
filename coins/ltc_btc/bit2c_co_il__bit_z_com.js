@@ -1,5 +1,5 @@
- DEBUG = false;
-// DEBUG = true;
+// DEBUG = false;
+DEBUG = true;
 
 console.log('Arber is running ...');
 
@@ -10,7 +10,7 @@ var STORE_NEGATIVE_RESOLES = false;
 var counting_rounds = 0;
 // var STORE_NEGATIVE_RESOLES = true ;
 
-var delay_in_milliseconds = 5000;
+var DELAY_TIME = 5000;
 
 
 
@@ -39,7 +39,7 @@ function run_in_loop_wrapper() {           //  create a loop function
           });
         }, function(callback) {
           // callback(null,1);
-          bit2c.getTicker('LtcNis', function(error, ticker) {
+          bit2c.getTicker('BtcNis', function(error, ticker) {
             callback(null, ticker);
           });
         },
@@ -55,7 +55,7 @@ function run_in_loop_wrapper() {           //  create a loop function
         //  DEBUG && console.log('bit2c_co_il_order_book: ', bit2c_co_il_order_book);
 
         var bit2c_co_il_NIS_BTC = results[2];
-        //  console.log('bit2c_co_il_NIS_BTC: '.info, bit2c_co_il_NIS_BTC);
+       //  console.log('bit2c_co_il_NIS_BTC: '.info, bit2c_co_il_NIS_BTC);
 
         var orders_to_inspect = bit2c_co_il_order_book.asks;
 
@@ -84,8 +84,7 @@ function run_in_loop_wrapper() {           //  create a loop function
           var price_margin = exchange_a.u_can_sell_in_bi2c_for_BTC -
               exchange_b.u_can_buy;
 
-          DEBUG &&
-          console.log('buy_in_Bit_z_com__sell_in_Bi2c: '.info, price_margin);
+          DEBUG && console.log('buy_in_Bit_z_com__sell_in_Bi2c: '.info, price_margin);
 
           var params_of_examine_to_store = require(
               '../../common/prper_for_sending')(coin_name, pair_coin,
@@ -96,8 +95,7 @@ function run_in_loop_wrapper() {           //  create a loop function
 
           var price_margin = exchange_b.u_can_sell -
               exchange_a.u_can_buy_in_BI2C_for_BTC;
-          DEBUG &&
-          console.log('buy_in_BI2C_sell_in_BIT_Z_COM'.info, price_margin);
+          DEBUG && console.log('buy_in_BI2C_sell_in_BIT_Z_COM'.info, price_margin);
 
           var params_of_examine_to_store = require(
               '../../common/prper_for_sending')(coin_name, pair_coin,
@@ -112,7 +110,7 @@ function run_in_loop_wrapper() {           //  create a loop function
 
       }); // end
 
-  helper_functions.loop_function(run_in_loop_wrapper, delay_in_milliseconds);
+  helper_functions.loop_function(run_in_loop_wrapper, DELAY_TIME);
 
 };
 

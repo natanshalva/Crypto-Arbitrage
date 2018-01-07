@@ -62,7 +62,7 @@ module.exports  =  function execute_bi2c_sort(
 
     bi2c_sort.u_can_sell_in_bi2c_for_BTC = normalize_Bi2c(
         bit2c_co_il_order_book.bids[action_i][0],
-         sell_trad_fee, // 0.5%
+         sell_trad_fee,
         bit2c_co_il_NIS_BTC
     );
     //  console.log( 'u_can_sell_in_bi2c_for_BTC ',bi2c_sorted.u_can_sell_in_bi2c_for_BTC ) ;

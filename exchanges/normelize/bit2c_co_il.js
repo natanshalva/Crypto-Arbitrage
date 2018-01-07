@@ -2,7 +2,7 @@
 module.exports = function(Big, colour) {
     return function normalize_Bi2c(coin_value, trade_fee, bit2c_co_il_NIS_BTC) {
       DEBUG && console.log(' '.info);
-      DEBUG && console.log('in normalize_Bi2c'.info);
+      DEBUG && console.log('in normalize_Bi2c'.red);
       // http://mikemcl.github.io/big.js/
 
       // trade
@@ -43,17 +43,15 @@ module.exports = function(Big, colour) {
       // start calculation
       // ----------------------------------------------------------------
 
-      var coin_value_after_trade_fee = (b_coin_value.times(b_trade_fee)); //sell/buy  coin * fee
-      DEBUG && console.log('sell/buy  coin * fee: '.info,
+      var coin_value_after_trade_fee = b_coin_value.times(b_trade_fee); //sell/buy  coin * fee
+      DEBUG && console.log('coin_value_after_trade_fee sell/buy  coin * fee: '.info,
           parseFloat(coin_value_after_trade_fee));
 
       var value_in_BTC = coin_value_after_trade_fee.div(b_bitcoin_price); // NIS / bitcoin price
-      DEBUG &&
-      console.log('NIS / bitcoin price: '.info, parseFloat(value_in_BTC));
+      DEBUG && console.log('value_in_BTC = NIS / bitcoin price: '.info, parseFloat(value_in_BTC));
 
       var value_after_buy_other_coin = value_in_BTC.times(b_buy_Other_coin_fee); // buy Other coin to transfer the money out the exchange
-      DEBUG &&
-      console.log('buy Other coin to transfer the money out the exchange: '.info,
+      DEBUG && console.log('buy Other coin to transfer the money out the exchange: '.info,
           parseFloat(value_after_buy_other_coin));
 
       var value_minus_withdraw_fee = value_after_buy_other_coin.minus(
