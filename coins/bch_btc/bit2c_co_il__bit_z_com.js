@@ -30,7 +30,7 @@ function run_in_loop_wrapper() {           //  create a loop function
 
   r.async.parallel([
         function get__bit_z_com(callback) {
-          require('../../exchanges/get_exchange_data/bit_z_com.js')(callback);
+          require('../../exchanges/get_exchange_data/bit_z_com.js')(callback,'bch_btc');
         }, function(callback) {
           //  callback(null,1);
           bit2c.getOrderBook('BchNis', function(error, getOrderBook) {
