@@ -18,7 +18,7 @@ module.exports  = function (Big,colour,log) {
       DEBUG && console.log('we are in end_of_cycle');
       var counting_rounds_plus_one = counting_rounds + 1 ;
       DEBUG && console.log('  ');
-      var str = 'done... '+coin+'-'+pair_coin+' '+path +' '+ counting_rounds_plus_one ;
+      var str = 'done... '+coin+'-'+pair_coin+' '+path +' ('+ counting_rounds_plus_one+')' ;
 
       console.log(str);
       DEBUG && console.log('  ');
