@@ -31,7 +31,7 @@ function run_in_loop_wrapper() {           //  create a loop function
           require('../../exchanges/get_exchange_data/bit_z_com.js')(callback,'bch_btc');
         }, function(callback) {
 
-          require('../../exchanges/get_exchange_data/abucoins_com.js')(callback, , 'bch_btc');
+          require('../../exchanges/get_exchange_data/abucoins_com.js')(callback,DELAY_TIME,'BCH-BTC');
 
         },
       ], // optional callback

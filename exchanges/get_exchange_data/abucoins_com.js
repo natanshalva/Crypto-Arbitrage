@@ -1,4 +1,4 @@
-module.exports = function get_data(callback , TIMEOUT) {
+module.exports = function get_data(callback , TIMEOUT,pair_coins) {
   const rp = require('request-promise');
   const crypto = require('crypto');
 
@@ -50,7 +50,7 @@ module.exports = function get_data(callback , TIMEOUT) {
   }
 
   let abucoins = new Abucoins();
-  let orders = abucoins.signAndRequest('GET', `/products/BCH-BTC/book?level=1`);
+  let orders = abucoins.signAndRequest('GET', `/products/`+pair_coins+`/book?level=1`);
 
   orders.then((list) => {
     // console.log(list);
