@@ -79,14 +79,14 @@ function run_in_loop_wrapper() {           //  create a loop function
 
           helper_functions.start(i);
 
-          var exchange_a = require('../../exchanges/bit2c_co_il.js')(
+          var exchange_a = require('../../exchanges/build_object/bit2c_co_il.js')(
               bit2c_co_il_NIS_BTC, bit2c_co_il_order_book, coin_name, i,
               normalize_Bi2c);
 
           // ********************************************************************************
           //var string_sell_quantity = new Big(  bit_z_com_depth.data.bids[action_i][1]);
 
-          var exchange_b = require('../../exchanges/bit_z_com.js')(
+          var exchange_b = require('../../exchanges/build_object/bit_z_com.js')(
               bit_z_com_depth, coin_name, i, normalize_Bit_z_com);
 
           // ********************************************************************************
