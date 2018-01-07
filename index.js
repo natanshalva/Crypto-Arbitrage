@@ -38,18 +38,48 @@ runScript('./coins/bch_btc/bit2c_co_il__bit_z_com.js', function(err) {
   console.log('finished running some-script.js');
 });
 
-runScript('./coins/bch_btc/bit_z_com__abucoins.js', function(err) {
+var path = './coins/bch_btc/bit_z_com__abucoins.js';
+runScript(path , function(err) {
   if (err) throw err;
-  console.log('bit_z_com__abucoins.js');
+  console.log('error in: '+ path );
 });
 
-var delay_in_milliseconds = 5000;
+
+
+//-----------------------------------------------------------------------
+//        DASH
+//-----------------------------------------------------------------------
+
+var path = './coins/dash_btc/bit_z_com__abucoins.js';
+runScript(path, function(err) {
+  if (err) throw err;
+  console.log('error in: '+ path);
+});
+//-----------------------------------------------------------------------
+//        LTC
+//-----------------------------------------------------------------------
+var path = './coins/ltc_btc/bit_z_com__abucoins.js';
+runScript(path , function(err) {
+  if (err) throw err;
+  console.log('error in: '+ path );
+});
+
+var path = './coins/ltc_btc/bit2c_co_il__bit_z_com.js';
+runScript(path , function(err) {
+  if (err) throw err;
+  console.log('error in: '+ path );
+});
+
+
+
+
+var delay_in_milliseconds = 60000;
 
 function run_in_loop_wrapper() {
-  var asdf = shell.exec('pgrep -a node | grep coins | cut -c35-100 ');
-
+  var asdf = shell.exec('pgrep -a node | grep coins | cut -c35-100 ', {silent : true}).stdout;
+console.log(asdf);
   function send_reality_check() {
- console.log('asdfsadf');
+
   var rp = require('request-promise');
   var options = {
     method: 'POST',
@@ -62,7 +92,7 @@ function run_in_loop_wrapper() {
   };
   rp(options).then(function(da) {
      console.log('we have results: '.info, da);
-    callback(null, da);
+  //  callback(null, da);
   }).catch(function(err) {
      console.log('API call failed...');
     // API call failed...
