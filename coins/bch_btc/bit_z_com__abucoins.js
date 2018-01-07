@@ -1,5 +1,5 @@
-// DEBUG = false;
- DEBUG = true;
+DEBUG = false;
+// DEBUG = true;
 
 console.log('Arber is running ...');
 

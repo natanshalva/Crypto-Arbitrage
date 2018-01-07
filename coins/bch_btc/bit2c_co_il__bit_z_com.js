@@ -1,5 +1,5 @@
-// DEBUG = false;
- DEBUG = true;
+ DEBUG = false;
+// DEBUG = true;
 
 console.log('Arber is running ...');
 
@@ -11,8 +11,6 @@ var counting_rounds = 0;
 // var STORE_NEGATIVE_RESOLES = true ;
 
 var delay_in_milliseconds = 5000;
-
-
 
 var r = require('../../common/all_require');
 
