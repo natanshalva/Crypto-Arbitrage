@@ -23,7 +23,7 @@ module.exports = function prepare(coin_name,pair_coin, buy_form, sell_in, price_
 
     quantity: quantity_available_for_trade_value,
     profit: margin_in_the_same_coin_value,
-    profit_in_percentage: (  Number(margin_in_the_same_coin_value) / Number(quantity_available_for_trade_value)).toFixed(2),
+    profit_in_percentage: (  (Number(margin_in_the_same_coin_value) / Number(quantity_available_for_trade_value)) * 100 ).toFixed(2),
   };
   
 DEBUG && console.log('params_of_examine_to_store:'.red , params_of_examine_to_store);
