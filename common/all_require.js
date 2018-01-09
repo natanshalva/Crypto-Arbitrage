@@ -1,7 +1,4 @@
 
-
-
-
   function gg () {
 
   var colour = require('colour');
@@ -27,6 +24,9 @@ var path = require('path');
 /*var Log = require('log')
     , log = new Log('info');*/
 
+var crypto = require("crypto");
+
+
 var fs = require('fs')
     , Log = require('log')
     , log = new Log('debug', fs.createWriteStream('my.log'));
@@ -38,7 +38,8 @@ var fs = require('fs')
     path: path,
     fs: fs,
     Log: Log,
-    log: log
+
+
   };
 
   return re;

@@ -44,7 +44,11 @@ runScript(path , function(err) {
   console.log('error in: '+ path );
 });
 
-
+var path = './coins/bch_btc/bit2c_co_il__abucoins.js';
+runScript(path , function(err) {
+  if (err) throw err;
+  console.log('error in: '+ path );
+});
 
 //-----------------------------------------------------------------------
 //        DASH
