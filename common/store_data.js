@@ -5,7 +5,7 @@ module.exports = function (params_of_examine_to_store, STORE_NEGATIVE_RESOLES) {
   function send_examine(callback) {
     DEBUG && console.log('we are in send_examine');
 
-    if(params_of_examine_to_store.profit < 0.0001 || params_of_examine_to_store.profit_in_percentage < 0  ){
+    if(params_of_examine_to_store.profit < 0.0001 || params_of_examine_to_store.profit_in_percentage < 0.1  ){
       if(STORE_NEGATIVE_RESOLES ){
         DEBUG && console.log('STORE_NEGATIVE_RESOLES : '.info , STORE_NEGATIVE_RESOLES);
       }else {
