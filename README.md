@@ -10,8 +10,14 @@
 
 <p>To run the script:</p>
 
-<hr>
+```shell
 node index.js
-<hr>
+```
+<p>Please note that this script will start a node sub process, and to stop them all you will need to run:</p>
+
+```shell
+pkill node
+```
+
 
 
