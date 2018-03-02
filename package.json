@@ -1,7 +1,8 @@
 {
-  "name": "socket-chat-example",
-  "version": "0.0.1",
-  "description": "my first socket.io app",
+  "name": "Crypto Arbitrage",
+  "author": "Natan Shalva",
+  "version": "1.0.1",
+  "description": "Check for yourself if Crypto Arbitrage is worth the risk",
   "dependencies": {
     "async": "^2.6.0",
     "async-p": "^1.1.0",
