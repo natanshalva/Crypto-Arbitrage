@@ -3,8 +3,9 @@ var shell = require('shelljs');
 
 var r = require('./common/all_require');
 
-var helper_functions = require('./common/helper_functions.js')(r.Big, r.colour,
-    r.log);
+var reality_check_api_address = 'http://manage_arber.local/Api/en/v1/reality_check';
+
+var helper_functions = require('./common/helper_functions.js')(r.Big, r.colour, r.log);
 
 var childProcess = require('child_process');
 
@@ -32,7 +33,11 @@ function runScript(scriptPath, callback) {
 
 }
 
+
 // Now we can run a script and invoke a callback when complete, e.g.
+//-----------------------------------------------------------------------
+//        BCH BTC
+//-----------------------------------------------------------------------
 runScript('./coins/bch_btc/bit2c_co_il__bit_z_com.js', function(err) {
   if (err) throw err;
   console.log('finished running some-script.js');
@@ -75,8 +80,6 @@ runScript(path , function(err) {
 });
 
 
-
-
 var delay_in_milliseconds = 60000;
 
 function run_in_loop_wrapper() {
@@ -87,7 +90,7 @@ console.log(asdf);
   var rp = require('request-promise');
   var options = {
     method: 'POST',
-    uri: 'http://manage_arber.local/Api/en/v1/reality_check',
+    uri: reality_check_api_address,
     qs: {data: asdf},
     headers: {
       'User-Agent': 'Request-Promise',
@@ -103,7 +106,6 @@ console.log(asdf);
   });
 };
 send_reality_check();
-
   helper_functions.loop_function(run_in_loop_wrapper, delay_in_milliseconds);
 }
 
