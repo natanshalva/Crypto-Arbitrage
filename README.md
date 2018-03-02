@@ -6,8 +6,12 @@
     <li>abucoins.com</li>
     <li>bit2c.co.il</li>
 </ul>    
-<p>If there is Arbitrage, it will send alert to "website" vie api</p>
-<hr>
+<p>If there is Arbitrage, it will send alert to "website" via API</p>
+
 <p>To run the script:</p>
+
+<hr>
+node index.js
+<hr>
 
 
