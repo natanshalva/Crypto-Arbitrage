@@ -1,5 +1,4 @@
 # Crypto-Arbitrage
-
 <p>This script will check the price of a few Crypto Exchange: </p>
 <ul>
     <li>bit-z.com</li>
